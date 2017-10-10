@@ -1,4 +1,4 @@
-package com.csse.interfaces;
+package com.csse.interfaces.payment;
 
 import java.awt.EventQueue;
 
