@@ -13,6 +13,7 @@ public class SemesterPayment {
 	private String Faculty;
 	private String specialication;
 	private double courseFee;
+	private Date registeredDate;
 	// bank details
 	private String bankName;
 	private String branchName;
@@ -80,6 +81,14 @@ public class SemesterPayment {
 
 	public void setCourseFee(double courseFee) {
 		this.courseFee = courseFee;
+	}
+
+	public Date getRegisteredDate() {
+		return registeredDate;
+	}
+
+	public void setRegisteredDate(Date registeredDate) {
+		this.registeredDate = registeredDate;
 	}
 
 	public String getBankName() {
