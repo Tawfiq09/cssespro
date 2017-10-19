@@ -7,15 +7,21 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import com.csse.payment.Service;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class SemesterPaymentUI extends JFrame {
 
@@ -31,6 +37,8 @@ public class SemesterPaymentUI extends JFrame {
 	private JTextField textFieldCourseFee;
 	private JTextField textFieldBank;
 	private JTextField textFieldbranch;
+	private JComboBox<String> comboBoxSpecialication;
+	private JComboBox<String> comboBoxFaculty;
 
 	/**
 	 * Launch the application.
@@ -60,6 +68,8 @@ public class SemesterPaymentUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		// set db connection to service class
+		Service.setconnection();
 		JLabel lblStudentId = new JLabel("Student ID");
 		lblStudentId.setBounds(24, 60, 86, 14);
 		contentPane.add(lblStudentId);
@@ -124,16 +134,49 @@ public class SemesterPaymentUI extends JFrame {
 		String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
 		textFieldYear.setText(year);
 
+		JComboBox<String> comboBoxstudentCurrentYear = new JComboBox<String>();
+		comboBoxstudentCurrentYear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!comboBoxFaculty.getSelectedItem().equals("select")
+						&& !comboBoxSpecialication.getSelectedItem().equals("select")) {
+					comboBoxSpecialication.removeAllItems();
+					String faculty = (String) comboBoxFaculty.getSelectedItem();
+					int year = Integer.parseInt((String) comboBoxstudentCurrentYear.getSelectedItem());
+					fillSpecialicationComboBox(comboBoxSpecialication, Service.fillSpecialication(faculty, year));
+
+				}
+			}
+		});
+		comboBoxstudentCurrentYear
+				.setModel(new DefaultComboBoxModel<String>(new String[] { "select", "1", "2", "3", "4" }));
+		comboBoxstudentCurrentYear.setBounds(158, 178, 100, 20);
+		contentPane.add(comboBoxstudentCurrentYear);
+
 		JComboBox<String> comboBoxSemester = new JComboBox<String>();
-		comboBoxSemester.setModel(new DefaultComboBoxModel<String>(new String[] {"select", "1", "2"}));
+		comboBoxSemester.setModel(new DefaultComboBoxModel<String>(new String[] { "select", "1", "2" }));
 		comboBoxSemester.setBounds(158, 258, 100, 20);
 		contentPane.add(comboBoxSemester);
 
-		JComboBox<String> comboBoxFaculty = new JComboBox<String>();
+		comboBoxFaculty = new JComboBox<String>();
+		comboBoxFaculty.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (!comboBoxFaculty.getSelectedItem().equals("select")
+						&& !comboBoxstudentCurrentYear.getSelectedItem().equals("select")) {
+					comboBoxSpecialication.removeAllItems();
+					String faculty = (String) comboBoxFaculty.getSelectedItem();
+					int year = Integer.parseInt((String) comboBoxstudentCurrentYear.getSelectedItem());
+					fillSpecialicationComboBox(comboBoxSpecialication, Service.fillSpecialication(faculty, year));
+
+				}
+			}
+		});
+		comboBoxFaculty.setModel(new DefaultComboBoxModel<String>(new String[] { "select" }));
 		comboBoxFaculty.setBounds(509, 51, 100, 20);
 		contentPane.add(comboBoxFaculty);
+		fillFacultyComboBox(comboBoxFaculty, Service.fillFaculty());
 
-		JComboBox<String> comboBoxSpecialication = new JComboBox<String>();
+		comboBoxSpecialication = new JComboBox<String>();
+		comboBoxSpecialication.setModel(new DefaultComboBoxModel<String>(new String[] { "select" }));
 		comboBoxSpecialication.setBounds(509, 91, 100, 20);
 		contentPane.add(comboBoxSpecialication);
 
@@ -182,14 +225,35 @@ public class SemesterPaymentUI extends JFrame {
 		lblStudentDetails.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblStudentDetails.setBounds(24, 11, 128, 14);
 		contentPane.add(lblStudentDetails);
-		
+
 		JLabel lblStudentCurrentYear = new JLabel("Student Current Year");
 		lblStudentCurrentYear.setBounds(24, 180, 116, 14);
 		contentPane.add(lblStudentCurrentYear);
-		
-		JComboBox<String> comboBoxstudentCurrentYear = new JComboBox<String>();
-		comboBoxstudentCurrentYear.setModel(new DefaultComboBoxModel<String>(new String[] {"select", "1", "2", "3", "4"}));
-		comboBoxstudentCurrentYear.setBounds(158, 178, 100, 20);
-		contentPane.add(comboBoxstudentCurrentYear);
+
+	}
+
+	// method for fill faculty comboBox
+	public void fillFacultyComboBox(JComboBox<String> jComboBox, ResultSet resultSet) {
+		try {
+			while (resultSet.next()) {
+				jComboBox.addItem(resultSet.getString("faculty_name"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public void fillSpecialicationComboBox(JComboBox<String> jComboBox, ResultSet resultSet) {
+		try {
+			while (resultSet.next()) {
+				jComboBox.addItem(resultSet.getString("specialication"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 }
