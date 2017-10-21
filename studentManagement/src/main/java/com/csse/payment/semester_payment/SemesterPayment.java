@@ -8,8 +8,9 @@ public class SemesterPayment {
 	private String studentId;
 	private String studentName;
 	private String studentEmail;
+	private Integer currentYear;
 	private Integer year;
-	private String semester;
+	private Integer semester;
 	private String Faculty;
 	private String specialication;
 	private double courseFee;
@@ -43,6 +44,14 @@ public class SemesterPayment {
 		this.studentEmail = studentEmail;
 	}
 
+	public Integer getCurrentYear() {
+		return currentYear;
+	}
+
+	public void setCurrentYear(Integer currentYear) {
+		this.currentYear = currentYear;
+	}
+
 	public Integer getYear() {
 		return year;
 	}
@@ -51,11 +60,11 @@ public class SemesterPayment {
 		this.year = year;
 	}
 
-	public String getSemester() {
+	public Integer getSemester() {
 		return semester;
 	}
 
-	public void setSemester(String semester) {
+	public void setSemester(Integer semester) {
 		this.semester = semester;
 	}
 

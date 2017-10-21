@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import com.csse.payment.Service;
+import com.csse.payment.semester_payment.SemesterPayment;
+import com.csse.payment.semester_payment.SemesterPaymentHandler;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
 import java.awt.Color;
@@ -35,7 +37,6 @@ public class SemesterPaymentUI extends JFrame {
 	private JTextField textFieldStudentEmail;
 	private JTextField textFieldYear;
 	private JTextField textFieldCourseFee;
-	private JTextField textFieldBank;
 	private JTextField textFieldbranch;
 	private JComboBox<String> comboBoxSpecialication;
 	private JComboBox<String> comboBoxFaculty;
@@ -70,6 +71,7 @@ public class SemesterPaymentUI extends JFrame {
 
 		// set db connection to service class
 		Service.setconnection();
+		SemesterPaymentHandler.setconnection();
 		JLabel lblStudentId = new JLabel("Student ID");
 		lblStudentId.setBounds(24, 60, 86, 14);
 		contentPane.add(lblStudentId);
@@ -106,26 +108,32 @@ public class SemesterPaymentUI extends JFrame {
 		lblRegisteredDate.setBounds(372, 174, 98, 14);
 		contentPane.add(lblRegisteredDate);
 
+		// student id
 		textFieldStudentID = new JTextField();
 		textFieldStudentID.setBounds(158, 58, 100, 20);
 		contentPane.add(textFieldStudentID);
 		textFieldStudentID.setColumns(10);
 
+		// student name
 		textFieldStudentName = new JTextField();
 		textFieldStudentName.setBounds(158, 98, 100, 20);
 		contentPane.add(textFieldStudentName);
 		textFieldStudentName.setColumns(10);
 
+		// student email
 		textFieldStudentEmail = new JTextField();
 		textFieldStudentEmail.setBounds(158, 138, 100, 20);
 		contentPane.add(textFieldStudentEmail);
 		textFieldStudentEmail.setColumns(10);
 
+		// registration date
 		JDateChooser dateChooserRegisterdDate = new JDateChooser();
+		dateChooserRegisterdDate.setDateFormatString("yyyy-MM-dd");
 		dateChooserRegisterdDate.setBounds(509, 168, 100, 20);
 		contentPane.add(dateChooserRegisterdDate);
 		dateChooserRegisterdDate.setMinSelectableDate(new Date());
 
+		// year
 		textFieldYear = new JTextField();
 		textFieldYear.setEditable(false);
 		textFieldYear.setBounds(158, 218, 100, 20);
@@ -134,6 +142,7 @@ public class SemesterPaymentUI extends JFrame {
 		String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
 		textFieldYear.setText(year);
 
+		// current year
 		JComboBox<String> comboBoxstudentCurrentYear = new JComboBox<String>();
 		comboBoxstudentCurrentYear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -152,11 +161,13 @@ public class SemesterPaymentUI extends JFrame {
 		comboBoxstudentCurrentYear.setBounds(158, 178, 100, 20);
 		contentPane.add(comboBoxstudentCurrentYear);
 
+		// current semester
 		JComboBox<String> comboBoxSemester = new JComboBox<String>();
 		comboBoxSemester.setModel(new DefaultComboBoxModel<String>(new String[] { "select", "1", "2" }));
 		comboBoxSemester.setBounds(158, 258, 100, 20);
 		contentPane.add(comboBoxSemester);
 
+		// faculty
 		comboBoxFaculty = new JComboBox<String>();
 		comboBoxFaculty.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -175,11 +186,13 @@ public class SemesterPaymentUI extends JFrame {
 		contentPane.add(comboBoxFaculty);
 		fillFacultyComboBox(comboBoxFaculty, Service.fillFaculty());
 
+		// Specialization
 		comboBoxSpecialication = new JComboBox<String>();
 		comboBoxSpecialication.setModel(new DefaultComboBoxModel<String>(new String[] { "select" }));
 		comboBoxSpecialication.setBounds(509, 91, 100, 20);
 		contentPane.add(comboBoxSpecialication);
 
+		// course fee
 		textFieldCourseFee = new JTextField();
 		textFieldCourseFee.setBounds(509, 131, 100, 20);
 		contentPane.add(textFieldCourseFee);
@@ -199,11 +212,13 @@ public class SemesterPaymentUI extends JFrame {
 		lblBranch.setBounds(24, 423, 46, 14);
 		contentPane.add(lblBranch);
 
-		textFieldBank = new JTextField();
-		textFieldBank.setBounds(95, 377, 100, 20);
-		contentPane.add(textFieldBank);
-		textFieldBank.setColumns(10);
+		// bank
+		JComboBox<String> comboBoxbank = new JComboBox<String>();
+		comboBoxbank.setModel(new DefaultComboBoxModel<String>(new String[] { "Sampath Bank", "BOC", "NTB" }));
+		comboBoxbank.setBounds(95, 377, 100, 20);
+		contentPane.add(comboBoxbank);
 
+		// branch
 		textFieldbranch = new JTextField();
 		textFieldbranch.setBounds(95, 420, 100, 20);
 		contentPane.add(textFieldbranch);
@@ -213,11 +228,36 @@ public class SemesterPaymentUI extends JFrame {
 		lblDeposit.setBounds(236, 380, 98, 14);
 		contentPane.add(lblDeposit);
 
+		// Deposit date
 		JDateChooser dateChooserDeposit = new JDateChooser();
+		dateChooserDeposit.setDateFormatString(" yyyy-MM-dd");
 		dateChooserDeposit.setBounds(333, 374, 100, 20);
 		contentPane.add(dateChooserDeposit);
 
+		// submit button
 		JButton btnSubmit = new JButton("SUBMIT");
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				SemesterPayment semeterpayment = new SemesterPayment();
+				semeterpayment.setStudentId(textFieldStudentID.getText());
+				semeterpayment.setStudentName(textFieldStudentName.getText());
+				semeterpayment.setStudentEmail(textFieldStudentEmail.getText());
+				semeterpayment.setCurrentYear(Integer.parseInt((String) comboBoxstudentCurrentYear.getSelectedItem()));
+				semeterpayment.setYear(Integer.parseInt(textFieldYear.getText()));
+				semeterpayment.setSemester(Integer.parseInt((String) comboBoxSemester.getSelectedItem()));
+				semeterpayment.setFaculty((String) comboBoxFaculty.getSelectedItem());
+				semeterpayment.setSpecialication((String) comboBoxSpecialication.getSelectedItem());
+				semeterpayment.setCourseFee(Double.parseDouble(textFieldCourseFee.getText()));
+				semeterpayment.setRegisteredDate(dateChooserRegisterdDate.getDate());
+				semeterpayment.setBankName((String) comboBoxbank.getSelectedItem());
+				semeterpayment.setBranchName(textFieldbranch.getText());
+				semeterpayment.setDate(dateChooserDeposit.getDate());
+
+				SemesterPaymentHandler.addSemesterPayment(semeterpayment);
+
+			}
+		});
 		btnSubmit.setBounds(578, 379, 98, 58);
 		contentPane.add(btnSubmit);
 

@@ -6,15 +6,17 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
+	private static Connection connection = null;
 	public static Connection getconnection() throws ClassNotFoundException {
 
+		if(connection == null) {
 		String driver = "com.mysql.jdbc.Driver";
 		String url = "jdbc:mysql://localhost:3306/cssemyoriginal";
 		String userName = "root";
 		String password = "sagarox";
 		Class.forName(driver);
 		try {
-			Connection connection = DriverManager.getConnection(url, userName, password);
+			 connection = DriverManager.getConnection(url, userName, password);
 
 			return connection;
 		} catch (SQLException e) {
@@ -22,6 +24,10 @@ public class DBConnection {
 
 			System.out.println(e);
 		}
-		return null;
+		}
+		
+			return connection;
+		
+		
 	}
 }
