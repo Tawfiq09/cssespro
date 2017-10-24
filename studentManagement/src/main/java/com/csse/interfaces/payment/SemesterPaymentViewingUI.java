@@ -5,11 +5,20 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.csse.payment.Service;
+import com.csse.payment.semester_payment.SemesterPaymentHandler;
+
+import net.proteanit.sql.DbUtils;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.awt.event.ActionEvent;
 
 public class SemesterPaymentViewingUI extends JFrame {
 
@@ -21,6 +30,7 @@ public class SemesterPaymentViewingUI extends JFrame {
 	private JTextField textFieldStudentID;
 	private JTextField textFieldNIC;
 	private JTable table;
+	private ResultSet resultSet;
 
 	/**
 	 * Launch the application.
@@ -44,11 +54,14 @@ public class SemesterPaymentViewingUI extends JFrame {
 	public SemesterPaymentViewingUI() {
 		setTitle("View Payment Deatils");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 722, 505);
+		setBounds(100, 100, 879, 505);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		Service.setconnection();
+		SemesterPaymentHandler.setconnection();
 		
 		JLabel lblStudentId = new JLabel("Student ID");
 		lblStudentId.setBounds(47, 45, 80, 14);
@@ -68,15 +81,23 @@ public class SemesterPaymentViewingUI extends JFrame {
 		contentPane.add(textFieldNIC);
 		textFieldNIC.setColumns(10);
 		
-		JButton btnSearch = new JButton("Search");
-		btnSearch.setBounds(482, 41, 89, 23);
-		contentPane.add(btnSearch);
-		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(50, 121, 622, 291);
+		scrollPane.setBounds(50, 121, 759, 291);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
+		
+		JButton btnSearch = new JButton("Search");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				resultSet = SemesterPaymentHandler.studentSearch(textFieldStudentID.getText());
+				table.setModel(DbUtils.resultSetToTableModel(resultSet));
+			}
+		});
+		btnSearch.setBounds(482, 41, 89, 23);
+		contentPane.add(btnSearch);
+		
+		
 	}
 }
