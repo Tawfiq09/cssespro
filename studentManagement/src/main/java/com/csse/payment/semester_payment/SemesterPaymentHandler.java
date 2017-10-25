@@ -35,7 +35,7 @@ public class SemesterPaymentHandler {
 	}
 
 	// add payment
-	public static void addSemesterPayment(SemesterPayment semesterPayment) {
+	public static boolean addSemesterPayment(SemesterPayment semesterPayment) {
 		String studentId = semesterPayment.getStudentId();
 		String studentName = semesterPayment.getStudentName();
 		String studentEmail = semesterPayment.getStudentEmail();
@@ -62,12 +62,16 @@ public class SemesterPaymentHandler {
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.executeUpdate();
+			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return false;
 	}
 
+	//search for student perspective
 	public static ResultSet studentSearch(String id) {
 
 		int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -85,5 +89,42 @@ public class SemesterPaymentHandler {
 
 		return null;
 	}
+	//search student wise admin perspective
+	public static ResultSet adminSearchStudentWise(String sid,int year,int semester) {
+		
+		String query = "select * from semesterpayment where student_id=? and year=? and semester=?";
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, sid);
+			preparedStatement.setInt(2, year);
+			preparedStatement.setInt(3, semester);
+			resultSet = preparedStatement.executeQuery();
+			return resultSet;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	//search faculty wise admin perspective
+		public static ResultSet adminSearchFacultytWise(String faculty,int year,int semester) {
+			
+			String query = "select * from semesterpayment where faculty=? and year=? and semester=?";
+			try {
+				preparedStatement = connection.prepareStatement(query);
+				preparedStatement.setString(1, faculty);
+				preparedStatement.setInt(2, year);
+				preparedStatement.setInt(3, semester);
+				resultSet = preparedStatement.executeQuery();
+				return resultSet;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return null;
+		}
 
 }

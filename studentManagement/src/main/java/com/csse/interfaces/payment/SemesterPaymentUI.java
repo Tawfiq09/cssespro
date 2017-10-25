@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import com.csse.payment.Service;
@@ -254,7 +255,13 @@ public class SemesterPaymentUI extends JFrame {
 				semeterpayment.setBranchName(textFieldbranch.getText());
 				semeterpayment.setDate(dateChooserDeposit.getDate());
 
-				SemesterPaymentHandler.addSemesterPayment(semeterpayment);
+				boolean result = SemesterPaymentHandler.addSemesterPayment(semeterpayment);
+				if(result) {
+					JOptionPane.showMessageDialog(null, "successfully Recorded");
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Database error");
+				}
 
 			}
 		});

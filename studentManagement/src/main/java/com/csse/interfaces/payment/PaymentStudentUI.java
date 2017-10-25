@@ -43,7 +43,7 @@ public class PaymentStudentUI extends JFrame {
 		setResizable(false);
 		setTitle("Student Payment Panel");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 627, 315);
+		setBounds(100, 100, 627, 380);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -89,6 +89,16 @@ public class PaymentStudentUI extends JFrame {
 		btnViewExamPayment.setBackground(SystemColor.textHighlight);
 		btnViewExamPayment.setBounds(338, 166, 237, 70);
 		contentPane.add(btnViewExamPayment);
+		
+		JButton btnAdmin = new JButton("Admin");
+		btnAdmin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PaymentAdminUI paymentAdminUI = new PaymentAdminUI();
+				paymentAdminUI.setVisible(true);
+			}
+		});
+		btnAdmin.setBounds(241, 293, 89, 23);
+		contentPane.add(btnAdmin);
 	}
 
 }
