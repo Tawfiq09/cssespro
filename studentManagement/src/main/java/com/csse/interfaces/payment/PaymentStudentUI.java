@@ -58,6 +58,7 @@ public class PaymentStudentUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				SemesterPaymentUI semesterPaymentUI = new SemesterPaymentUI();
 				semesterPaymentUI.setVisible(true);
+				
 			}
 		});
 		btnSemesterRegistrationPayment.setBounds(39, 36, 237, 70);

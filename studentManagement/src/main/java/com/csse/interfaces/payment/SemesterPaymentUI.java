@@ -254,6 +254,7 @@ public class SemesterPaymentUI extends JFrame {
 				semeterpayment.setBankName((String) comboBoxbank.getSelectedItem());
 				semeterpayment.setBranchName(textFieldbranch.getText());
 				semeterpayment.setDate(dateChooserDeposit.getDate());
+				semeterpayment.setStatus("pending");
 
 				boolean result = SemesterPaymentHandler.addSemesterPayment(semeterpayment);
 				if(result) {

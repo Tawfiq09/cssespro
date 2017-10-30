@@ -19,6 +19,7 @@ public class SemesterPayment {
 	private String bankName;
 	private String branchName;
 	private Date date;
+	private String status;
 
 	public String getStudentId() {
 		return studentId;
@@ -123,5 +124,15 @@ public class SemesterPayment {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	
 
 }
