@@ -67,11 +67,11 @@ public class SemesterPaymentHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		return false;
 	}
 
-	// search for student perspective
+	//search for student perspective
 	public static ResultSet studentSearch(String id) {
 
 		int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -89,14 +89,10 @@ public class SemesterPaymentHandler {
 
 		return null;
 	}
-
-	// search student wise admin perspective
-	public static ResultSet adminSearchStudentWise(String sid, int year, int semester) {
-
-		String query = "select student_id as 'Student Id',student_name as 'Student Name',student_email as 'Student Email',curruent_year as 'Current Year',"
-				+ "year as 'Year',semester as 'Semester',faculty as 'Faculty',specialication as 'Specialication',"
-				+ "course_fee as 'Course Fee',registration_date as 'Registred Date',bank as 'Bank',branch as 'Branch',deposit_date as 'Deposit Date',status as 'Status'"
-				+ " from semesterpayment where student_id=? and year=? and semester=?";
+	//search student wise admin perspective
+	public static ResultSet adminSearchStudentWise(String sid,int year,int semester) {
+		
+		String query = "select * from semesterpayment where student_id=? and year=? and semester=?";
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, sid);
@@ -108,30 +104,27 @@ public class SemesterPaymentHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		return null;
 	}
-
-	// search faculty wise admin perspective
-	public static ResultSet adminSearchFacultytWise(String faculty, int year, int semester) {
-
-		String query = "select student_id as 'Student Id',student_name as 'Student Name',student_email as 'Student Email',curruent_year as 'Current Year',"
-				+ "year as 'Year',semester as 'Semester',faculty as 'Faculty',specialication as 'Specialication',"
-				+ "course_fee as 'Course Fee',registration_date as 'Registred Date',bank as 'Bank',branch as 'Branch',deposit_date as 'Deposit Date',status as 'Status'"
-				+ " from semesterpayment where faculty=? and year=? and semester=?";
-		try {
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, faculty);
-			preparedStatement.setInt(2, year);
-			preparedStatement.setInt(3, semester);
-			resultSet = preparedStatement.executeQuery();
-			return resultSet;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	
+	//search faculty wise admin perspective
+		public static ResultSet adminSearchFacultytWise(String faculty,int year,int semester) {
+			
+			String query = "select * from semesterpayment where faculty=? and year=? and semester=?";
+			try {
+				preparedStatement = connection.prepareStatement(query);
+				preparedStatement.setString(1, faculty);
+				preparedStatement.setInt(2, year);
+				preparedStatement.setInt(3, semester);
+				resultSet = preparedStatement.executeQuery();
+				return resultSet;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return null;
 		}
-
-		return null;
-	}
 
 }
