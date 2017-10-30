@@ -27,8 +27,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/softwear/MySql connector/mysql-connector-java-5.1.44/mysql-connector-java-5.1.44-bin.jar"/>
-	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
-	<classpathentry kind="lib" path="F:/CSSE_Project_Fork/rs2xml.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
