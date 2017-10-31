@@ -35,7 +35,7 @@ public class SemesterPaymentHandler {
 	}
 
 	// add payment
-	public static boolean addSemesterPayment(SemesterPayment semesterPayment) {
+	public static boolean add(SemesterPayment semesterPayment) {
 		String studentId = semesterPayment.getStudentId();
 		String studentName = semesterPayment.getStudentName();
 		String studentEmail = semesterPayment.getStudentEmail();

@@ -256,7 +256,7 @@ public class SemesterPaymentUI extends JFrame {
 				semeterpayment.setDate(dateChooserDeposit.getDate());
 				semeterpayment.setStatus("pending");
 
-				boolean result = SemesterPaymentHandler.addSemesterPayment(semeterpayment);
+				boolean result = SemesterPaymentHandler.add(semeterpayment);
 				if(result) {
 					JOptionPane.showMessageDialog(null, "successfully Recorded");
 				}
