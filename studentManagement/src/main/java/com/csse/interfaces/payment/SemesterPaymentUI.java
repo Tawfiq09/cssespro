@@ -111,33 +111,33 @@ public class SemesterPaymentUI extends JFrame {
 
 		// student id
 		textFieldStudentID = new JTextField();
-		textFieldStudentID.setBounds(158, 58, 100, 20);
+		textFieldStudentID.setBounds(158, 58, 135, 20);
 		contentPane.add(textFieldStudentID);
 		textFieldStudentID.setColumns(10);
 
 		// student name
 		textFieldStudentName = new JTextField();
-		textFieldStudentName.setBounds(158, 98, 100, 20);
+		textFieldStudentName.setBounds(158, 98, 135, 20);
 		contentPane.add(textFieldStudentName);
 		textFieldStudentName.setColumns(10);
 
 		// student email
 		textFieldStudentEmail = new JTextField();
-		textFieldStudentEmail.setBounds(158, 138, 100, 20);
+		textFieldStudentEmail.setBounds(158, 138, 135, 20);
 		contentPane.add(textFieldStudentEmail);
 		textFieldStudentEmail.setColumns(10);
 
 		// registration date
 		JDateChooser dateChooserRegisterdDate = new JDateChooser();
 		dateChooserRegisterdDate.setDateFormatString("yyyy-MM-dd");
-		dateChooserRegisterdDate.setBounds(509, 168, 100, 20);
+		dateChooserRegisterdDate.setBounds(509, 168, 135, 20);
 		contentPane.add(dateChooserRegisterdDate);
 		dateChooserRegisterdDate.setMinSelectableDate(new Date());
 
 		// year
 		textFieldYear = new JTextField();
 		textFieldYear.setEditable(false);
-		textFieldYear.setBounds(158, 218, 100, 20);
+		textFieldYear.setBounds(158, 218, 135, 20);
 		contentPane.add(textFieldYear);
 		textFieldYear.setColumns(10);
 		String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
@@ -159,13 +159,13 @@ public class SemesterPaymentUI extends JFrame {
 		});
 		comboBoxstudentCurrentYear
 				.setModel(new DefaultComboBoxModel<String>(new String[] { "select", "1", "2", "3", "4" }));
-		comboBoxstudentCurrentYear.setBounds(158, 178, 100, 20);
+		comboBoxstudentCurrentYear.setBounds(158, 178, 135, 20);
 		contentPane.add(comboBoxstudentCurrentYear);
 
 		// current semester
 		JComboBox<String> comboBoxSemester = new JComboBox<String>();
 		comboBoxSemester.setModel(new DefaultComboBoxModel<String>(new String[] { "select", "1", "2" }));
-		comboBoxSemester.setBounds(158, 258, 100, 20);
+		comboBoxSemester.setBounds(158, 258, 135, 20);
 		contentPane.add(comboBoxSemester);
 
 		// faculty
@@ -183,19 +183,19 @@ public class SemesterPaymentUI extends JFrame {
 			}
 		});
 		comboBoxFaculty.setModel(new DefaultComboBoxModel<String>(new String[] { "select" }));
-		comboBoxFaculty.setBounds(509, 51, 100, 20);
+		comboBoxFaculty.setBounds(509, 51, 135, 20);
 		contentPane.add(comboBoxFaculty);
 		fillFacultyComboBox(comboBoxFaculty, Service.fillFaculty());
 
 		// Specialization
 		comboBoxSpecialication = new JComboBox<String>();
 		comboBoxSpecialication.setModel(new DefaultComboBoxModel<String>(new String[] { "select" }));
-		comboBoxSpecialication.setBounds(509, 91, 100, 20);
+		comboBoxSpecialication.setBounds(509, 91, 135, 20);
 		contentPane.add(comboBoxSpecialication);
 
 		// course fee
 		textFieldCourseFee = new JTextField();
-		textFieldCourseFee.setBounds(509, 131, 100, 20);
+		textFieldCourseFee.setBounds(509, 131, 135, 20);
 		contentPane.add(textFieldCourseFee);
 		textFieldCourseFee.setColumns(10);
 
@@ -216,23 +216,23 @@ public class SemesterPaymentUI extends JFrame {
 		// bank
 		JComboBox<String> comboBoxbank = new JComboBox<String>();
 		comboBoxbank.setModel(new DefaultComboBoxModel<String>(new String[] { "Sampath Bank", "BOC", "NTB" }));
-		comboBoxbank.setBounds(95, 377, 100, 20);
+		comboBoxbank.setBounds(95, 377, 124, 20);
 		contentPane.add(comboBoxbank);
 
 		// branch
 		textFieldbranch = new JTextField();
-		textFieldbranch.setBounds(95, 420, 100, 20);
+		textFieldbranch.setBounds(95, 420, 124, 20);
 		contentPane.add(textFieldbranch);
 		textFieldbranch.setColumns(10);
 
 		JLabel lblDeposit = new JLabel("Deposit Date");
-		lblDeposit.setBounds(236, 380, 98, 14);
+		lblDeposit.setBounds(250, 380, 98, 14);
 		contentPane.add(lblDeposit);
 
 		// Deposit date
 		JDateChooser dateChooserDeposit = new JDateChooser();
 		dateChooserDeposit.setDateFormatString(" yyyy-MM-dd");
-		dateChooserDeposit.setBounds(333, 374, 100, 20);
+		dateChooserDeposit.setBounds(358, 377, 100, 20);
 		contentPane.add(dateChooserDeposit);
 
 		// submit button
@@ -275,7 +275,7 @@ public class SemesterPaymentUI extends JFrame {
 		contentPane.add(lblStudentDetails);
 
 		JLabel lblStudentCurrentYear = new JLabel("Student Current Year");
-		lblStudentCurrentYear.setBounds(24, 180, 116, 14);
+		lblStudentCurrentYear.setBounds(24, 180, 124, 14);
 		contentPane.add(lblStudentCurrentYear);
 
 	}

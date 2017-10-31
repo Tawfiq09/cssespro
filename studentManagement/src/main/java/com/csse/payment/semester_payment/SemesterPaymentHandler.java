@@ -114,17 +114,18 @@ public class SemesterPaymentHandler {
 	}
 
 	// search faculty wise admin perspective
-	public static ResultSet adminSearchFacultytWise(String faculty, int year, int semester) {
+	public static ResultSet adminSearchFacultytWise(String faculty, int year, int semester, int current_year) {
 
 		String query = "select student_id as 'Student Id',student_name as 'Student Name',student_email as 'Student Email',curruent_year as 'Current Year',"
 				+ "year as 'Year',semester as 'Semester',faculty as 'Faculty',specialication as 'Specialication',"
 				+ "course_fee as 'Course Fee',registration_date as 'Registred Date',bank as 'Bank',branch as 'Branch',deposit_date as 'Deposit Date',status as 'Status'"
-				+ " from semesterpayment where faculty=? and year=? and semester=?";
+				+ " from semesterpayment where faculty=? and year=? and semester=? and curruent_year=?";
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, faculty);
 			preparedStatement.setInt(2, year);
 			preparedStatement.setInt(3, semester);
+			preparedStatement.setInt(4, current_year);
 			resultSet = preparedStatement.executeQuery();
 			return resultSet;
 		} catch (SQLException e) {
