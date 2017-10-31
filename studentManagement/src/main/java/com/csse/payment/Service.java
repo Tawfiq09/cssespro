@@ -55,5 +55,25 @@ public class Service {
 
 		return null;
 	}
+	
+	public static ResultSet getExaminationDetails(String faculty,int year_of_university,String specialization,int semester, int year) {
+		
+		String query ="select * from exams where faculty=? and year_of_university =? and specialization=? and semester=? and YEAR(date_of_exam) =?  ";
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, faculty);
+			preparedStatement.setInt(2, year_of_university);
+			preparedStatement.setString(3, specialization);
+			preparedStatement.setInt(4, semester);
+			preparedStatement.setInt(5, year);
+			
+			resultSet = preparedStatement.executeQuery();
+			return resultSet;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

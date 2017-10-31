@@ -5,11 +5,19 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.csse.payment.exam_payment.ExamPaymentHandler;
+
+import net.proteanit.sql.DbUtils;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.awt.event.ActionEvent;
 
 public class ExamPaymentViewingUI extends JFrame {
 
@@ -21,6 +29,7 @@ public class ExamPaymentViewingUI extends JFrame {
 	private JTextField textFieldStudentId;
 	private JTextField textFieldNic;
 	private JTable table;
+	private ResultSet resultSet;
 
 	/**
 	 * Launch the application.
@@ -50,6 +59,8 @@ public class ExamPaymentViewingUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		ExamPaymentHandler.setconnection();
+		
 		JLabel lblStudentId = new JLabel("Student ID");
 		lblStudentId.setBounds(30, 30, 82, 14);
 		contentPane.add(lblStudentId);
@@ -76,6 +87,14 @@ public class ExamPaymentViewingUI extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		JButton btnSearch = new JButton("Search");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!textFieldStudentId.getText().trim().isEmpty()) {
+					resultSet = ExamPaymentHandler.studentSearch(textFieldStudentId.getText());
+					table.setModel(DbUtils.resultSetToTableModel(resultSet));
+				}
+			}
+		});
 		btnSearch.setBounds(575, 26, 101, 23);
 		contentPane.add(btnSearch);
 	}

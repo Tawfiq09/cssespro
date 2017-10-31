@@ -64,7 +64,13 @@ public class PaymentStudentUI extends JFrame {
 		btnSemesterRegistrationPayment.setBounds(39, 36, 237, 70);
 		contentPane.add(btnSemesterRegistrationPayment);
 
-		JButton btnExamRegistrationPayment = new JButton("Exam Registration Payment");
+		JButton btnExamRegistrationPayment = new JButton("Exam Payment Registration");
+		btnExamRegistrationPayment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ExamPaymentUI examPaymentUI = new ExamPaymentUI();
+				examPaymentUI.setVisible(true);
+			}
+		});
 		btnExamRegistrationPayment.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnExamRegistrationPayment.setForeground(Color.WHITE);
 		btnExamRegistrationPayment.setBackground(SystemColor.textHighlight);
@@ -85,6 +91,12 @@ public class PaymentStudentUI extends JFrame {
 		contentPane.add(btnViewSemesterPayment);
 
 		JButton btnViewExamPayment = new JButton("View Exam payment Deatils");
+		btnViewExamPayment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ExamPaymentViewingUI examPaymentViewingUI = new ExamPaymentViewingUI();
+				examPaymentViewingUI.setVisible(true);
+			}
+		});
 		btnViewExamPayment.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnViewExamPayment.setForeground(Color.WHITE);
 		btnViewExamPayment.setBackground(SystemColor.textHighlight);

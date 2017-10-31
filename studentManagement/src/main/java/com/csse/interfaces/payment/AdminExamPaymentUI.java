@@ -12,6 +12,8 @@ import com.toedter.calendar.JYearChooser;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class AdminExamPaymentUI extends JFrame {
 
@@ -83,7 +85,7 @@ public class AdminExamPaymentUI extends JFrame {
 		panel.add(yearChooser);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(688, 5, 330, 204);
+		panel_1.setBounds(643, 5, 375, 204);
 		panel_1.setBackground(Color.WHITE);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
@@ -106,8 +108,22 @@ public class AdminExamPaymentUI extends JFrame {
 		panel_1.add(lblExamination);
 		
 		JButton btnSearchExam = new JButton("Search");
-		btnSearchExam.setBounds(98, 175, 89, 23);
+		btnSearchExam.setBounds(262, 170, 89, 23);
 		panel_1.add(btnSearchExam);
+		
+		JYearChooser yearChooser_1 = new JYearChooser();
+		yearChooser_1.setBounds(102, 42, 47, 20);
+		panel_1.add(yearChooser_1);
+		
+		JComboBox<String> comboBoxfaculty = new JComboBox<String>();
+		comboBoxfaculty.setModel(new DefaultComboBoxModel<String>(new String[] {"select"}));
+		comboBoxfaculty.setBounds(102, 84, 134, 20);
+		panel_1.add(comboBoxfaculty);
+		
+		JComboBox<String> comboBoxExamination = new JComboBox<String>();
+		comboBoxExamination.setModel(new DefaultComboBoxModel<String>(new String[] {"select"}));
+		comboBoxExamination.setBounds(102, 133, 131, 20);
+		panel_1.add(comboBoxExamination);
 		
 		table = new JTable();
 		table.setBounds(10, 232, 1008, 363);
