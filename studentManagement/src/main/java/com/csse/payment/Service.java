@@ -55,6 +55,23 @@ public class Service {
 
 		return null;
 	}
+	
+	public static ResultSet fillSCourseFee(String faculty, int year, String specialication) {
+		String query = " select * from specialication where faculty = ? and year= ? and specialication=?";
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, faculty);
+			preparedStatement.setInt(2, year);
+			preparedStatement.setString(3, specialication);
+			resultSet = preparedStatement.executeQuery();
+			return resultSet;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 
 	public static ResultSet getExaminationDetails(String faculty, int year_of_university, String specialization,
 			int semester, int year) {

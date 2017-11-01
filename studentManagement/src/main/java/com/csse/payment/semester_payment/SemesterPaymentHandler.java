@@ -30,7 +30,31 @@ public class SemesterPaymentHandler {
 	}
 
 	// verify student
-	public static boolean verifystudent(SemesterPayment semesterPayment) {
+	public static boolean checkRecordAlreadyExist(SemesterPayment semesterPayment) {
+		int count =0;
+		String studentId = semesterPayment.getStudentId();
+		Integer year = semesterPayment.getYear();
+		Integer semester = semesterPayment.getSemester();
+		String query = "select * from semesterpayment where student_id=? and year=? and semester=? ";
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, studentId);
+			preparedStatement.setInt(2, year);
+			preparedStatement.setInt(3, semester);
+			resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()) {
+				count++;
+			}
+			
+			if(count>0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return false;
 	}
 
