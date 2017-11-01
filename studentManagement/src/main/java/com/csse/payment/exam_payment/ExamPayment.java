@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class ExamPayment {
 
+	//structure of exam payment
 	private String student_id;
 	private String student_name;
 	private String student_email;

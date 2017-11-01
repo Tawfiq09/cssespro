@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 public class ExamPaymentViewingUI extends JFrame {
 
 	/**
-	 * 
+	 * This UI for student to view there exam payments
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -58,38 +58,42 @@ public class ExamPaymentViewingUI extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		ExamPaymentHandler.setconnection();
-		
+
 		JLabel lblStudentId = new JLabel("Student ID");
 		lblStudentId.setBounds(30, 30, 82, 14);
 		contentPane.add(lblStudentId);
-		
+
+		// student id
 		textFieldStudentId = new JTextField();
 		textFieldStudentId.setBounds(114, 27, 135, 20);
 		contentPane.add(textFieldStudentId);
 		textFieldStudentId.setColumns(10);
-		
+
 		JLabel lblNic = new JLabel("Nic");
 		lblNic.setBounds(308, 30, 46, 14);
 		contentPane.add(lblNic);
-		
+
+		// nic
 		textFieldNic = new JTextField();
 		textFieldNic.setBounds(364, 27, 135, 20);
 		contentPane.add(textFieldNic);
 		textFieldNic.setColumns(10);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(30, 98, 702, 295);
+		scrollPane.setBounds(10, 98, 722, 295);
 		contentPane.add(scrollPane);
-		
+
+		//table
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		
+
+		//search button
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!textFieldStudentId.getText().trim().isEmpty()) {
+				if (!textFieldStudentId.getText().trim().isEmpty()) {
 					resultSet = ExamPaymentHandler.studentSearch(textFieldStudentId.getText());
 					table.setModel(DbUtils.resultSetToTableModel(resultSet));
 				}

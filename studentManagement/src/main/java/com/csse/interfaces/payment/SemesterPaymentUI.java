@@ -396,6 +396,7 @@ public class SemesterPaymentUI extends JFrame {
 
 	}
 
+	//method to fill specialization comboBox
 	public void fillSpecialicationComboBox(JComboBox<String> jComboBox, ResultSet resultSet) {
 		try {
 			while (resultSet.next()) {
@@ -408,6 +409,7 @@ public class SemesterPaymentUI extends JFrame {
 
 	}
 
+	//method to fill course fee
 	public void fillCourseFee(JTextField textField, ResultSet resultSet) {
 
 		try {
@@ -420,6 +422,7 @@ public class SemesterPaymentUI extends JFrame {
 		}
 	}
 
+	//check all components
 	public boolean isempty() {
 		boolean textBoxes = checkTextBoxes();
 		boolean comboBoxes = checkComboBoxes();
@@ -431,6 +434,7 @@ public class SemesterPaymentUI extends JFrame {
 		return true;
 	}
 
+	//check textFields
 	public boolean checkTextBoxes() {
 
 		if (!textFieldStudentID.getText().trim().isEmpty() && !textFieldStudentName.getText().trim().isEmpty()
@@ -441,6 +445,7 @@ public class SemesterPaymentUI extends JFrame {
 		return false;
 	}
 
+	//check comboBoxes
 	public boolean checkComboBoxes() {
 		if (!comboBoxstudentCurrentYear.getSelectedItem().equals("select")
 				&& !comboBoxSemester.getSelectedItem().equals("select")
@@ -452,6 +457,7 @@ public class SemesterPaymentUI extends JFrame {
 		return false;
 	}
 
+	//check dateChoosers
 	public boolean checkDateChoosers() {
 
 		Date RegisterdDate = dateChooserRegisterdDate.getDate();
@@ -463,6 +469,7 @@ public class SemesterPaymentUI extends JFrame {
 		return false;
 	}
 
+	//check email
 	public boolean validateEmail(JTextField textField) {
 		Pattern email = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 		Matcher matcher = email.matcher(textField.getText());

@@ -18,7 +18,7 @@ public class Service {
 		if (connection == null) {
 			try {
 				connection = DBConnection.getconnection();
-				System.out.println("connected");
+				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

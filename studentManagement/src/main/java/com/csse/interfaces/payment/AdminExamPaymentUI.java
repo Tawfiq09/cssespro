@@ -36,7 +36,7 @@ import java.awt.event.MouseEvent;
 public class AdminExamPaymentUI extends JFrame {
 
 	/**
-	 * 
+	 * This ui for administrator to view exam payment details
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -73,6 +73,7 @@ public class AdminExamPaymentUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		// set db connection for both Service and ExamPaymentHandler
 		Service.setconnection();
 		ExamPaymentHandler.setconnection();
 
@@ -90,11 +91,13 @@ public class AdminExamPaymentUI extends JFrame {
 		lblYear.setBounds(10, 95, 46, 14);
 		panel.add(lblYear);
 
+		// student id
 		textFieldStudentId = new JTextField();
 		textFieldStudentId.setBounds(90, 51, 120, 20);
 		panel.add(textFieldStudentId);
 		textFieldStudentId.setColumns(10);
 
+		// panel1 year
 		JYearChooser yearChooser = new JYearChooser();
 		yearChooser.setBounds(90, 89, 47, 20);
 		panel.add(yearChooser);
@@ -104,6 +107,7 @@ public class AdminExamPaymentUI extends JFrame {
 		lblStudentWiseSearch.setBounds(10, 11, 156, 14);
 		panel.add(lblStudentWiseSearch);
 
+		// panel 1 search button
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -140,10 +144,12 @@ public class AdminExamPaymentUI extends JFrame {
 		lblExamination.setBounds(10, 136, 85, 14);
 		panel_1.add(lblExamination);
 
+		// panel 2
 		JYearChooser yearChooser_1 = new JYearChooser();
 		yearChooser_1.setBounds(102, 42, 47, 20);
 		panel_1.add(yearChooser_1);
 
+		// faculty
 		comboBoxfaculty = new JComboBox<String>();
 		comboBoxfaculty.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -158,11 +164,13 @@ public class AdminExamPaymentUI extends JFrame {
 		panel_1.add(comboBoxfaculty);
 		fillFacultyComboBox(comboBoxfaculty, Service.fillFaculty());
 
+		// examination
 		comboBoxExamination = new JComboBox<String>();
 		comboBoxExamination.setModel(new DefaultComboBoxModel<String>(new String[] { "select" }));
 		comboBoxExamination.setBounds(102, 133, 153, 20);
 		panel_1.add(comboBoxExamination);
 
+		// panel 2 search button
 		JButton btnSearchExam = new JButton("Search");
 		btnSearchExam.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -181,6 +189,7 @@ public class AdminExamPaymentUI extends JFrame {
 		scrollPane.setBounds(10, 232, 1008, 363);
 		contentPane.add(scrollPane);
 
+		// table
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -205,8 +214,7 @@ public class AdminExamPaymentUI extends JFrame {
 				examPayment.setStatus((String) model.getValueAt(i, 14));
 				AdminExamPaymentManupulationUI frame = new AdminExamPaymentManupulationUI(examPayment);
 				frame.setVisible(true);
-				
-				
+
 			}
 		});
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -226,6 +234,7 @@ public class AdminExamPaymentUI extends JFrame {
 
 	}
 
+	// method for fill examination comboBox
 	public void fillExaminationComboBox(JComboBox<String> jComboBox, ResultSet resultSet) {
 		try {
 			while (resultSet.next()) {

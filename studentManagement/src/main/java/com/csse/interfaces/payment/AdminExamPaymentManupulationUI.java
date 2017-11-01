@@ -132,6 +132,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		lblStatus.setBounds(427, 150, 46, 14);
 		contentPane.add(lblStatus);
 
+		// student id
 		textFieldStudentID = new JTextField();
 		textFieldStudentID.setEditable(false);
 		textFieldStudentID.setBounds(161, 30, 180, 20);
@@ -139,6 +140,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldStudentID.setColumns(10);
 		textFieldStudentID.setText(examPayment.getStudent_id());
 
+		// student name
 		textFieldStudentName = new JTextField();
 		textFieldStudentName.setEditable(false);
 		textFieldStudentName.setBounds(161, 70, 180, 20);
@@ -146,6 +148,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldStudentName.setColumns(10);
 		textFieldStudentName.setText(examPayment.getStudent_name());
 
+		// student email
 		textFieldStudentEmail = new JTextField();
 		textFieldStudentEmail.setEditable(false);
 		textFieldStudentEmail.setText("");
@@ -154,6 +157,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldStudentEmail.setColumns(10);
 		textFieldStudentEmail.setText(examPayment.getStudent_email());
 
+		// year
 		textFieldYear = new JTextField();
 		textFieldYear.setEditable(false);
 		textFieldYear.setBounds(161, 150, 180, 20);
@@ -161,6 +165,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldYear.setColumns(10);
 		textFieldYear.setText(String.valueOf(examPayment.getYear()));
 
+		// faculty
 		textFieldFaculty = new JTextField();
 		textFieldFaculty.setEditable(false);
 		textFieldFaculty.setBounds(161, 190, 180, 20);
@@ -168,6 +173,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldFaculty.setColumns(10);
 		textFieldFaculty.setText(examPayment.getFaculty());
 
+		// current year of university
 		textFieldcurrentYear = new JTextField();
 		textFieldcurrentYear.setEditable(false);
 		textFieldcurrentYear.setBounds(161, 230, 180, 20);
@@ -175,6 +181,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldcurrentYear.setColumns(10);
 		textFieldcurrentYear.setText(String.valueOf(examPayment.getCurrent_year()));
 
+		//specialization
 		textFieldSpecialization = new JTextField();
 		textFieldSpecialization.setEditable(false);
 		textFieldSpecialization.setBounds(161, 270, 180, 20);
@@ -182,6 +189,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldSpecialization.setColumns(10);
 		textFieldSpecialization.setText(examPayment.getSpecialization());
 
+		//examination
 		textFieldExamination = new JTextField();
 		textFieldExamination.setEditable(false);
 		textFieldExamination.setBounds(161, 347, 180, 20);
@@ -189,6 +197,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldExamination.setColumns(10);
 		textFieldExamination.setText(examPayment.getExamination());
 
+		//registered date
 		textFieldRegDate = new JTextField();
 		textFieldRegDate.setEditable(false);
 		textFieldRegDate.setBounds(161, 387, 180, 20);
@@ -196,6 +205,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldRegDate.setColumns(10);
 		textFieldRegDate.setText(examPayment.getRegistered_date().toString());
 
+		//exam fee
 		textFieldExamFee = new JTextField();
 		textFieldExamFee.setEditable(false);
 		textFieldExamFee.setBounds(161, 427, 180, 20);
@@ -203,6 +213,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldExamFee.setColumns(10);
 		textFieldExamFee.setText(String.valueOf(examPayment.getExam_fee()));
 
+		//bank
 		textFieldBank = new JTextField();
 		textFieldBank.setEditable(false);
 		textFieldBank.setBounds(508, 27, 180, 20);
@@ -210,6 +221,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldBank.setColumns(10);
 		textFieldBank.setText(examPayment.getBank());
 
+		//branch
 		textFieldbranch = new JTextField();
 		textFieldbranch.setEditable(false);
 		textFieldbranch.setBounds(508, 67, 180, 20);
@@ -217,6 +229,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldbranch.setColumns(10);
 		textFieldbranch.setText(examPayment.getBranch());
 
+		//deposit date
 		textFieldDepDate = new JTextField();
 		textFieldDepDate.setEditable(false);
 		textFieldDepDate.setBounds(508, 107, 180, 20);
@@ -224,12 +237,14 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldDepDate.setColumns(10);
 		textFieldDepDate.setText(examPayment.getDeposit_date().toString());
 
+		//Status
 		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] { "pending", "verified" }));
 		comboBox.setBounds(508, 150, 180, 20);
 		contentPane.add(comboBox);
 		comboBox.setSelectedItem(examPayment.getStatus());
 
+		//update button
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -244,7 +259,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 					} else {
 						JOptionPane.showMessageDialog(null, "Some thing wrong in database");
 					}
-					
+
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -259,6 +274,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		lblSemester.setBounds(43, 313, 82, 14);
 		contentPane.add(lblSemester);
 
+		//semester
 		textFieldsemester = new JTextField();
 		textFieldsemester.setEditable(false);
 		textFieldsemester.setBounds(159, 310, 182, 20);
