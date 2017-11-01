@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
@@ -259,32 +261,35 @@ public class SemesterPaymentUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 				if (!isempty()) {
-					SemesterPayment semeterpayment = new SemesterPayment();
-					semeterpayment.setStudentId(textFieldStudentID.getText());
-					semeterpayment.setStudentName(textFieldStudentName.getText());
-					semeterpayment.setStudentEmail(textFieldStudentEmail.getText());
-					semeterpayment
-							.setCurrentYear(Integer.parseInt((String) comboBoxstudentCurrentYear.getSelectedItem()));
-					semeterpayment.setYear(Integer.parseInt(textFieldYear.getText()));
-					semeterpayment.setSemester(Integer.parseInt((String) comboBoxSemester.getSelectedItem()));
-					semeterpayment.setFaculty((String) comboBoxFaculty.getSelectedItem());
-					semeterpayment.setSpecialication((String) comboBoxSpecialication.getSelectedItem());
-					semeterpayment.setCourseFee(Double.parseDouble(textFieldCourseFee.getText()));
-					semeterpayment.setRegisteredDate(dateChooserRegisterdDate.getDate());
-					semeterpayment.setBankName((String) comboBoxbank.getSelectedItem());
-					semeterpayment.setBranchName(textFieldbranch.getText());
-					semeterpayment.setDate(dateChooserDeposit.getDate());
-					semeterpayment.setStatus("pending");
-					if (!SemesterPaymentHandler.checkRecordAlreadyExist(semeterpayment)) {
-						boolean result = SemesterPaymentHandler.add(semeterpayment);
-						if (result) {
-							JOptionPane.showMessageDialog(null, "successfully Recorded");
+					if (validateEmail(textFieldStudentEmail)) {
+						SemesterPayment semeterpayment = new SemesterPayment();
+						semeterpayment.setStudentId(textFieldStudentID.getText());
+						semeterpayment.setStudentName(textFieldStudentName.getText());
+						semeterpayment.setStudentEmail(textFieldStudentEmail.getText());
+						semeterpayment.setCurrentYear(
+								Integer.parseInt((String) comboBoxstudentCurrentYear.getSelectedItem()));
+						semeterpayment.setYear(Integer.parseInt(textFieldYear.getText()));
+						semeterpayment.setSemester(Integer.parseInt((String) comboBoxSemester.getSelectedItem()));
+						semeterpayment.setFaculty((String) comboBoxFaculty.getSelectedItem());
+						semeterpayment.setSpecialication((String) comboBoxSpecialication.getSelectedItem());
+						semeterpayment.setCourseFee(Double.parseDouble(textFieldCourseFee.getText()));
+						semeterpayment.setRegisteredDate(dateChooserRegisterdDate.getDate());
+						semeterpayment.setBankName((String) comboBoxbank.getSelectedItem());
+						semeterpayment.setBranchName(textFieldbranch.getText());
+						semeterpayment.setDate(dateChooserDeposit.getDate());
+						semeterpayment.setStatus("pending");
+						if (!SemesterPaymentHandler.checkRecordAlreadyExist(semeterpayment)) {
+							boolean result = SemesterPaymentHandler.add(semeterpayment);
+							if (result) {
+								JOptionPane.showMessageDialog(null, "successfully Recorded");
+							} else {
+								JOptionPane.showMessageDialog(null, "Database error");
+							}
 						} else {
-							JOptionPane.showMessageDialog(null, "Database error");
+							JOptionPane.showMessageDialog(null, "You cannot add same record two times");
 						}
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "You cannot add same record two times");
+					} else {
+						JOptionPane.showMessageDialog(null, "please enter valid email ");
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "All mandatory feilds must be filled");
@@ -453,6 +458,15 @@ public class SemesterPaymentUI extends JFrame {
 
 		Date DepositDate = dateChooserDeposit.getDate();
 		if (RegisterdDate != null && DepositDate != null) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean validateEmail(JTextField textField) {
+		Pattern email = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+		Matcher matcher = email.matcher(textField.getText());
+		if (matcher.matches()) {
 			return true;
 		}
 		return false;
