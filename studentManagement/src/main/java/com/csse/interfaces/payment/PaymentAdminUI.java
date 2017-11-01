@@ -1,4 +1,4 @@
-package com.csse.interfaces;
+package com.csse.interfaces.payment;
 
 import java.awt.EventQueue;
 
@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class PaymentStudentUI extends JFrame {
+public class PaymentAdminUI extends JFrame {
 
 	/**
 	 * 
@@ -24,7 +24,7 @@ public class PaymentStudentUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PaymentStudentUI frame = new PaymentStudentUI();
+					PaymentAdminUI frame = new PaymentAdminUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,27 +36,32 @@ public class PaymentStudentUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PaymentStudentUI() {
+	public PaymentAdminUI() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JButton btnSemesterRegistrationPayment = new JButton("Semester Registration Payment");
-		btnSemesterRegistrationPayment.addActionListener(new ActionListener() {
+
+		JButton btnViewSemesterPayment = new JButton("View Semester Payment");
+		btnViewSemesterPayment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SemesterPaymentUI semesterPaymentUI = new SemesterPaymentUI();
-				semesterPaymentUI.setVisible(true);
+				AdminSemesterPaymentUI adminSemesterPaymentUI = new AdminSemesterPaymentUI();
+				adminSemesterPaymentUI.setVisible(true);
 			}
 		});
-		btnSemesterRegistrationPayment.setBounds(118, 95, 197, 23);
-		contentPane.add(btnSemesterRegistrationPayment);
+		btnViewSemesterPayment.setBounds(87, 70, 207, 23);
+		contentPane.add(btnViewSemesterPayment);
 		
-		JButton btnExamRegistrationPayment = new JButton("Exam Registration Payment");
-		btnExamRegistrationPayment.setBounds(118, 165, 197, 23);
-		contentPane.add(btnExamRegistrationPayment);
+		JButton btnViewExamPayment = new JButton("View Exam Payment");
+		btnViewExamPayment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminExamPaymentUI adminExamPaymentUI = new AdminExamPaymentUI();
+				adminExamPaymentUI.setVisible(true);
+			}
+		});
+		btnViewExamPayment.setBounds(87, 144, 207, 23);
+		contentPane.add(btnViewExamPayment);
 	}
-
 }

@@ -1,0 +1,103 @@
+package com.csse.interfaces.payment;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import com.csse.payment.Service;
+import com.csse.payment.semester_payment.SemesterPaymentHandler;
+
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.awt.event.ActionEvent;
+
+public class SemesterPaymentViewingUI extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField textFieldStudentID;
+	private JTextField textFieldNIC;
+	private JTable table;
+	private ResultSet resultSet;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					SemesterPaymentViewingUI frame = new SemesterPaymentViewingUI();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public SemesterPaymentViewingUI() {
+		setTitle("View Payment Deatils");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 879, 505);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		Service.setconnection();
+		SemesterPaymentHandler.setconnection();
+		
+		JLabel lblStudentId = new JLabel("Student ID");
+		lblStudentId.setBounds(47, 45, 80, 14);
+		contentPane.add(lblStudentId);
+		
+		textFieldStudentID = new JTextField();
+		textFieldStudentID.setBounds(137, 42, 86, 20);
+		contentPane.add(textFieldStudentID);
+		textFieldStudentID.setColumns(10);
+		
+		JLabel lblNic = new JLabel("NIC");
+		lblNic.setBounds(288, 45, 46, 14);
+		contentPane.add(lblNic);
+		
+		textFieldNIC = new JTextField();
+		textFieldNIC.setBounds(344, 42, 86, 20);
+		contentPane.add(textFieldNIC);
+		textFieldNIC.setColumns(10);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(50, 121, 759, 291);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
+		JButton btnSearch = new JButton("Search");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				resultSet = SemesterPaymentHandler.studentSearch(textFieldStudentID.getText());
+				table.setModel(DbUtils.resultSetToTableModel(resultSet));
+			}
+		});
+		btnSearch.setBounds(482, 41, 89, 23);
+		contentPane.add(btnSearch);
+		
+		
+	}
+}
