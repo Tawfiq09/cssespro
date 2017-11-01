@@ -267,7 +267,7 @@ public class SemesterPaymentUI extends JFrame {
 						semeterpayment.setStudentName(textFieldStudentName.getText());
 						semeterpayment.setStudentEmail(textFieldStudentEmail.getText());
 						semeterpayment.setCurrentYear(
-								Integer.parseInt((String) comboBoxstudentCurrentYear.getSelectedItem()));
+						Integer.parseInt((String) comboBoxstudentCurrentYear.getSelectedItem()));
 						semeterpayment.setYear(Integer.parseInt(textFieldYear.getText()));
 						semeterpayment.setSemester(Integer.parseInt((String) comboBoxSemester.getSelectedItem()));
 						semeterpayment.setFaculty((String) comboBoxFaculty.getSelectedItem());
