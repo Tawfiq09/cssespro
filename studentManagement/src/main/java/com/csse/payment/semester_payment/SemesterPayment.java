@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class SemesterPayment {
 
+	//Structure  of semester payment
+	
 	// student details
 	private String studentId;
 	private String studentName;
@@ -12,13 +14,14 @@ public class SemesterPayment {
 	private Integer year;
 	private Integer semester;
 	private String Faculty;
-	private String specialication;
+	private String specialization;
 	private double courseFee;
 	private Date registeredDate;
 	// bank details
 	private String bankName;
 	private String branchName;
 	private Date date;
+	//status
 	private String status;
 
 	public String getStudentId() {
@@ -78,11 +81,11 @@ public class SemesterPayment {
 	}
 
 	public String getSpecialication() {
-		return specialication;
+		return specialization;
 	}
 
-	public void setSpecialication(String specialication) {
-		this.specialication = specialication;
+	public void setSpecialication(String specialization) {
+		this.specialization = specialization;
 	}
 
 	public double getCourseFee() {

@@ -7,10 +7,12 @@ import java.sql.SQLException;
 
 public class Service {
 
+	//this class provide support services for both exam payment and semester payment classes
 	private static Connection connection = null;
 	private static PreparedStatement preparedStatement;
 	private static ResultSet resultSet;
 
+	//to get sql connection
 	public static void setconnection() {
 
 		if (connection == null) {
@@ -39,9 +41,9 @@ public class Service {
 
 		return null;
 	}
-
+	//method to get specialization details according to given faculty and year
 	public static ResultSet fillSpecialication(String faculty, int year) {
-		String query = " select * from specialication where faculty = ? and year= ?";
+		String query = " select * from specialization where faculty = ? and year= ?";
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, faculty);
@@ -55,14 +57,14 @@ public class Service {
 
 		return null;
 	}
-	
-	public static ResultSet fillSCourseFee(String faculty, int year, String specialication) {
-		String query = " select * from specialication where faculty = ? and year= ? and specialication=?";
+	//method to get course fee according to given faculty a, year, and specialization
+	public static ResultSet fillSCourseFee(String faculty, int year, String specialization) {
+		String query = " select * from specialization where faculty = ? and year= ? and specialization=?";
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, faculty);
 			preparedStatement.setInt(2, year);
-			preparedStatement.setString(3, specialication);
+			preparedStatement.setString(3, specialization);
 			resultSet = preparedStatement.executeQuery();
 			return resultSet;
 		} catch (SQLException e) {
@@ -73,6 +75,7 @@ public class Service {
 		return null;
 	}
 
+	//Method to get examination according to given parameters
 	public static ResultSet getExaminationDetails(String faculty, int year_of_university, String specialization,
 			int semester, int year) {
 
@@ -94,6 +97,7 @@ public class Service {
 		return null;
 	}
 
+	//Method to get examination according to year and faculty
 	public static ResultSet getExaminationDetails(int year, String faculty) {
 
 		String query = "select * from exams where faculty=? and YEAR(date_of_exam) =?";

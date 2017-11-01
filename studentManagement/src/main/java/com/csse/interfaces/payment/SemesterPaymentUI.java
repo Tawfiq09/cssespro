@@ -31,7 +31,7 @@ import java.awt.event.ActionEvent;
 public class SemesterPaymentUI extends JFrame {
 
 	/**
-	 * 
+	 * UI for record payment details
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -78,7 +78,7 @@ public class SemesterPaymentUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		// set db connection to service class
+		// set db connection to both Service and SemesterPaymentHandler classes
 		Service.setconnection();
 		SemesterPaymentHandler.setconnection();
 		JLabel lblStudentId = new JLabel("Student ID");
@@ -105,7 +105,7 @@ public class SemesterPaymentUI extends JFrame {
 		lblFaculty.setBounds(372, 54, 86, 14);
 		contentPane.add(lblFaculty);
 
-		JLabel lblSpecialication = new JLabel("Specialication");
+		JLabel lblSpecialication = new JLabel("Specialization");
 		lblSpecialication.setBounds(372, 94, 86, 14);
 		contentPane.add(lblSpecialication);
 
@@ -267,7 +267,7 @@ public class SemesterPaymentUI extends JFrame {
 						semeterpayment.setStudentName(textFieldStudentName.getText());
 						semeterpayment.setStudentEmail(textFieldStudentEmail.getText());
 						semeterpayment.setCurrentYear(
-						Integer.parseInt((String) comboBoxstudentCurrentYear.getSelectedItem()));
+								Integer.parseInt((String) comboBoxstudentCurrentYear.getSelectedItem()));
 						semeterpayment.setYear(Integer.parseInt(textFieldYear.getText()));
 						semeterpayment.setSemester(Integer.parseInt((String) comboBoxSemester.getSelectedItem()));
 						semeterpayment.setFaculty((String) comboBoxFaculty.getSelectedItem());
@@ -399,7 +399,7 @@ public class SemesterPaymentUI extends JFrame {
 	public void fillSpecialicationComboBox(JComboBox<String> jComboBox, ResultSet resultSet) {
 		try {
 			while (resultSet.next()) {
-				jComboBox.addItem(resultSet.getString("specialication"));
+				jComboBox.addItem(resultSet.getString("specialization"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
