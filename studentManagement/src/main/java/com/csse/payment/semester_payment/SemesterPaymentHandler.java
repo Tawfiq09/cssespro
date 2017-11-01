@@ -76,7 +76,8 @@ public class SemesterPaymentHandler {
 	public static ResultSet studentSearch(String id) {
 
 		int year = Calendar.getInstance().get(Calendar.YEAR);
-		String query = "select student_id,student_name,year,semester,faculty,specialication,course_fee,registration_date,bank,status from semesterpayment where student_id=? and year=? ";
+		String query = "select student_id,student_name,year,semester,faculty,specialication,course_fee,registration_date,bank,status"
+				+ " from semesterpayment where student_id=? and year=? ";
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, id);

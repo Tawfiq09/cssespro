@@ -63,13 +63,13 @@ public class ExamPaymentHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 		return false;
 	}
-	
+
+	// search student perspective
 	public static ResultSet studentSearch(String student_id) {
-		
+
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		String query = "select student_id as 'Student Id',student_name as 'Student Name',faculty as 'Faculty',"
 				+ "examination as 'Examination',registered_date as 'Registered Date',exam_fee as 'Exam Fee',"
@@ -84,7 +84,60 @@ public class ExamPaymentHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
+	}
+
+	//admin perspective student wise search
+	public static ResultSet searchStudent(String student_id, int year) {
+		String query = "select * from exampayment where student_id=? and Year(registered_date)=?";
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, student_id);
+			preparedStatement.setInt(2, year);
+			resultSet = preparedStatement.executeQuery();
+			return resultSet;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	//admin perspective exam wise search
+	public static ResultSet search(String exam,int year) {
+		
+		String query = "select * from exampayment where examination=? and Year(registered_date)=?";
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, exam);
+			preparedStatement.setInt(2, year);
+			resultSet = preparedStatement.executeQuery();
+			return resultSet;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static boolean upadte(String sid, java.sql.Date regDate, String examination,String status) {
+
+		String query = "update exampayment set status = '" + status
+				+ "' where student_id=? and registered_date=? and examination=?  ";
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, sid);
+			preparedStatement.setDate(2, (java.sql.Date) regDate);
+			preparedStatement.setString(3, examination);
+			preparedStatement.executeUpdate();
+			return true;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+		return false;
 	}
 }

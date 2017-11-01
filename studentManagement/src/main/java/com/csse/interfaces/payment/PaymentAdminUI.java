@@ -51,8 +51,17 @@ public class PaymentAdminUI extends JFrame {
 				adminSemesterPaymentUI.setVisible(true);
 			}
 		});
-		btnViewSemesterPayment.setBounds(22, 116, 207, 23);
+		btnViewSemesterPayment.setBounds(87, 70, 207, 23);
 		contentPane.add(btnViewSemesterPayment);
+		
+		JButton btnViewExamPayment = new JButton("View Exam Payment");
+		btnViewExamPayment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminExamPaymentUI adminExamPaymentUI = new AdminExamPaymentUI();
+				adminExamPaymentUI.setVisible(true);
+			}
+		});
+		btnViewExamPayment.setBounds(87, 144, 207, 23);
+		contentPane.add(btnViewExamPayment);
 	}
-
 }
