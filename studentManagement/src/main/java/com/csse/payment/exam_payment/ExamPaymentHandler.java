@@ -185,4 +185,23 @@ public class ExamPaymentHandler {
 		}
 		return false;
 	}
+
+	//method for delete exam payment recode
+	public static boolean delete(String sid, int year, int semester, String examination) {
+		String query = "delete from exampayment where student_id=? and year=? and semester=? and examination=? ";
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, sid);
+			preparedStatement.setInt(2, year);
+			preparedStatement.setInt(3, semester);
+			preparedStatement.setString(4, examination);
+			preparedStatement.execute();
+			return true;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

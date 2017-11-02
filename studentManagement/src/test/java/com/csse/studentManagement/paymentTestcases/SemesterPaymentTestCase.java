@@ -17,6 +17,7 @@ import org.testng.annotations.BeforeTest;
 public class SemesterPaymentTestCase {
 
 	// all are positive test
+
 	String studentId = "IT15124567";
 	String studentName = "saman";
 	String studentEmail = "saman@gmail.com";
@@ -55,6 +56,7 @@ public class SemesterPaymentTestCase {
 
 	}
 
+	// test for add semester payent
 	@Test(groups = "payment.semester")
 	public void addpayment() {
 		try {
@@ -64,6 +66,7 @@ public class SemesterPaymentTestCase {
 		}
 	}
 
+	// test for student perspective search
 	@Test(groups = "payment.semester", dependsOnMethods = { "addpayment" })
 	public void studentSearch() {
 		resultSet = SemesterPaymentHandler.studentSearch(studentId);
@@ -80,6 +83,7 @@ public class SemesterPaymentTestCase {
 
 	}
 
+	// test for admin perspective student wise search
 	@Test(groups = "payment.semester", dependsOnMethods = { "addpayment" })
 	public void adminSearchStudentWise() {
 		resultSet = SemesterPaymentHandler.adminSearchStudentWise(studentId, year, semester);
@@ -112,6 +116,7 @@ public class SemesterPaymentTestCase {
 	//
 	// }
 
+	// test for update semester payment
 	@Test(groups = "payment.semester", dependsOnMethods = { "addpayment" })
 	public void update() {
 		try {
@@ -121,6 +126,7 @@ public class SemesterPaymentTestCase {
 		}
 	}
 
+	// test for delete semester payment
 	@Test(groups = "payment.semester", dependsOnMethods = { "addpayment" })
 	public void delete() {
 		try {

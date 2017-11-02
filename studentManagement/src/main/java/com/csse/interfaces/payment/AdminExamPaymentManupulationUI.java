@@ -9,7 +9,6 @@ import javax.swing.border.EmptyBorder;
 import com.csse.payment.Service;
 import com.csse.payment.exam_payment.ExamPayment;
 import com.csse.payment.exam_payment.ExamPaymentHandler;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -181,7 +180,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldcurrentYear.setColumns(10);
 		textFieldcurrentYear.setText(String.valueOf(examPayment.getCurrent_year()));
 
-		//specialization
+		// specialization
 		textFieldSpecialization = new JTextField();
 		textFieldSpecialization.setEditable(false);
 		textFieldSpecialization.setBounds(161, 270, 180, 20);
@@ -189,7 +188,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldSpecialization.setColumns(10);
 		textFieldSpecialization.setText(examPayment.getSpecialization());
 
-		//examination
+		// examination
 		textFieldExamination = new JTextField();
 		textFieldExamination.setEditable(false);
 		textFieldExamination.setBounds(161, 347, 180, 20);
@@ -197,7 +196,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldExamination.setColumns(10);
 		textFieldExamination.setText(examPayment.getExamination());
 
-		//registered date
+		// registered date
 		textFieldRegDate = new JTextField();
 		textFieldRegDate.setEditable(false);
 		textFieldRegDate.setBounds(161, 387, 180, 20);
@@ -205,7 +204,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldRegDate.setColumns(10);
 		textFieldRegDate.setText(examPayment.getRegistered_date().toString());
 
-		//exam fee
+		// exam fee
 		textFieldExamFee = new JTextField();
 		textFieldExamFee.setEditable(false);
 		textFieldExamFee.setBounds(161, 427, 180, 20);
@@ -213,7 +212,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldExamFee.setColumns(10);
 		textFieldExamFee.setText(String.valueOf(examPayment.getExam_fee()));
 
-		//bank
+		// bank
 		textFieldBank = new JTextField();
 		textFieldBank.setEditable(false);
 		textFieldBank.setBounds(508, 27, 180, 20);
@@ -221,7 +220,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldBank.setColumns(10);
 		textFieldBank.setText(examPayment.getBank());
 
-		//branch
+		// branch
 		textFieldbranch = new JTextField();
 		textFieldbranch.setEditable(false);
 		textFieldbranch.setBounds(508, 67, 180, 20);
@@ -229,7 +228,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldbranch.setColumns(10);
 		textFieldbranch.setText(examPayment.getBranch());
 
-		//deposit date
+		// deposit date
 		textFieldDepDate = new JTextField();
 		textFieldDepDate.setEditable(false);
 		textFieldDepDate.setBounds(508, 107, 180, 20);
@@ -237,14 +236,14 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		textFieldDepDate.setColumns(10);
 		textFieldDepDate.setText(examPayment.getDeposit_date().toString());
 
-		//Status
+		// Status
 		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] { "pending", "verified" }));
 		comboBox.setBounds(508, 150, 180, 20);
 		contentPane.add(comboBox);
 		comboBox.setSelectedItem(examPayment.getStatus());
 
-		//update button
+		// update button
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -274,12 +273,35 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 		lblSemester.setBounds(43, 313, 82, 14);
 		contentPane.add(lblSemester);
 
-		//semester
+		// semester
 		textFieldsemester = new JTextField();
 		textFieldsemester.setEditable(false);
 		textFieldsemester.setBounds(159, 310, 182, 20);
 		contentPane.add(textFieldsemester);
 		textFieldsemester.setColumns(10);
 		textFieldsemester.setText(String.valueOf(examPayment.getSemester()));
+
+		// delete button
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int dialogResult = JOptionPane.showConfirmDialog(null, "Do yo want to delete this record?", "Warning",
+						JOptionPane.YES_NO_OPTION);
+				if (dialogResult == JOptionPane.YES_OPTION) {
+					String sid = textFieldStudentID.getText();
+					int year = Integer.parseInt(textFieldYear.getText());
+					int semester = Integer.parseInt(textFieldsemester.getText());
+					String examination = textFieldExamination.getText();
+					boolean result = ExamPaymentHandler.delete(sid, year, semester, examination);
+					if (result) {
+						JOptionPane.showMessageDialog(null, "Successfully Delete");
+					} else {
+						JOptionPane.showMessageDialog(null, "Some thing wrong in database");
+					}
+				}
+			}
+		});
+		btnDelete.setBounds(551, 283, 89, 23);
+		contentPane.add(btnDelete);
 	}
 }
