@@ -100,7 +100,7 @@ public class ExamPaymentTestCase {
 	// test for delete exam payment recode
 	@Test(groups = "payment.exam", dependsOnMethods = { "addPayment" })
 	public void delete() {
-		assertTrue(ExamPaymentHandler.delete(student_id, current_year, semester, examination));
+		assertTrue(ExamPaymentHandler.delete(student_id, year, semester, examination));
 	}
 
 }
