@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 public class AdminSemesterPaymentManupulationUI extends JFrame {
 
 	/**
-	 * 
+	 * This is for update and view semester payment details
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -86,13 +86,6 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		lblStudentId.setBounds(10, 34, 82, 14);
 		contentPane.add(lblStudentId);
 
-		textFieldStudentID = new JTextField();
-		textFieldStudentID.setEditable(false);
-		textFieldStudentID.setBounds(114, 31, 135, 20);
-		contentPane.add(textFieldStudentID);
-		textFieldStudentID.setColumns(10);
-		textFieldStudentID.setText(semesterPayment.getStudentId());
-
 		lblStudentName = new JLabel("Student Name");
 		lblStudentName.setBounds(10, 82, 82, 14);
 		contentPane.add(lblStudentName);
@@ -117,7 +110,7 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		lblFaculty.setBounds(394, 34, 82, 14);
 		contentPane.add(lblFaculty);
 
-		lblSpecialication = new JLabel("Specialication");
+		lblSpecialication = new JLabel("Specialization");
 		lblSpecialication.setBounds(394, 82, 82, 14);
 		contentPane.add(lblSpecialication);
 
@@ -126,7 +119,7 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		contentPane.add(lblCourseFee);
 
 		lblRegisteredDate = new JLabel("Registered Date");
-		lblRegisteredDate.setBounds(394, 178, 82, 14);
+		lblRegisteredDate.setBounds(394, 178, 96, 14);
 		contentPane.add(lblRegisteredDate);
 
 		lblBankDetails = new JLabel("Bank details");
@@ -146,6 +139,15 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		lblDepositDate.setBounds(10, 479, 82, 14);
 		contentPane.add(lblDepositDate);
 
+		// student id
+		textFieldStudentID = new JTextField();
+		textFieldStudentID.setEditable(false);
+		textFieldStudentID.setBounds(114, 31, 135, 20);
+		contentPane.add(textFieldStudentID);
+		textFieldStudentID.setColumns(10);
+		textFieldStudentID.setText(semesterPayment.getStudentId());
+
+		// student name
 		textFieldStudentName = new JTextField();
 		textFieldStudentName.setEditable(false);
 		textFieldStudentName.setBounds(114, 79, 135, 20);
@@ -157,6 +159,7 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		lblStatus.setBounds(394, 229, 82, 14);
 		contentPane.add(lblStatus);
 
+		// student email
 		textFieldStudentEmail = new JTextField();
 		textFieldStudentEmail.setEditable(false);
 		textFieldStudentEmail.setBounds(114, 126, 135, 20);
@@ -164,6 +167,7 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		textFieldStudentEmail.setColumns(10);
 		textFieldStudentEmail.setText(semesterPayment.getStudentEmail());
 
+		// student current year
 		textFieldCurrentYear = new JTextField();
 		textFieldCurrentYear.setEditable(false);
 		textFieldCurrentYear.setBounds(114, 175, 135, 20);
@@ -171,6 +175,7 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		textFieldCurrentYear.setColumns(10);
 		textFieldCurrentYear.setText(semesterPayment.getCurrentYear().toString());
 
+		// year
 		textFieldYear = new JTextField();
 		textFieldYear.setEditable(false);
 		textFieldYear.setBounds(114, 226, 135, 20);
@@ -178,6 +183,7 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		textFieldYear.setColumns(10);
 		textFieldYear.setText(semesterPayment.getYear().toString());
 
+		// semester
 		textFieldSemester = new JTextField();
 		textFieldSemester.setEditable(false);
 		textFieldSemester.setBounds(114, 273, 135, 20);
@@ -185,6 +191,7 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		textFieldSemester.setColumns(10);
 		textFieldSemester.setText(semesterPayment.getSemester().toString());
 
+		// faculty
 		textFieldFaculty = new JTextField();
 		textFieldFaculty.setEditable(false);
 		textFieldFaculty.setBounds(500, 31, 135, 20);
@@ -192,6 +199,7 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		textFieldFaculty.setColumns(10);
 		textFieldFaculty.setText(semesterPayment.getFaculty());
 
+		// specialization
 		textFieldSpecialication = new JTextField();
 		textFieldSpecialication.setEditable(false);
 		textFieldSpecialication.setBounds(500, 79, 135, 20);
@@ -199,6 +207,7 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		textFieldSpecialication.setColumns(10);
 		textFieldSpecialication.setText(semesterPayment.getSpecialication());
 
+		// course Fee
 		textFieldCourseFee = new JTextField();
 		textFieldCourseFee.setEditable(false);
 		textFieldCourseFee.setBounds(500, 126, 135, 20);
@@ -206,6 +215,7 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		textFieldCourseFee.setColumns(10);
 		textFieldCourseFee.setText(String.valueOf(semesterPayment.getCourseFee()));
 
+		// registered date
 		textFieldRegDate = new JTextField();
 		textFieldRegDate.setEditable(false);
 		textFieldRegDate.setBounds(500, 175, 135, 20);
@@ -213,12 +223,14 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		textFieldRegDate.setColumns(10);
 		textFieldRegDate.setText(semesterPayment.getRegisteredDate().toString());
 
+		// status
 		JComboBox<String> comboBoxStatus = new JComboBox<String>();
 		comboBoxStatus.setModel(new DefaultComboBoxModel<String>(new String[] { "verified", "pending" }));
 		comboBoxStatus.setBounds(500, 226, 135, 20);
 		contentPane.add(comboBoxStatus);
 		comboBoxStatus.setSelectedItem(semesterPayment.getStatus());
 
+		// bank
 		textFieldBank = new JTextField();
 		textFieldBank.setEditable(false);
 		textFieldBank.setBounds(114, 388, 135, 20);
@@ -226,6 +238,7 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		textFieldBank.setColumns(10);
 		textFieldBank.setText(semesterPayment.getBankName());
 
+		// Branch
 		textFieldBranch = new JTextField();
 		textFieldBranch.setEditable(false);
 		textFieldBranch.setBounds(114, 432, 135, 20);
@@ -233,6 +246,7 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		textFieldBranch.setColumns(10);
 		textFieldBranch.setText(semesterPayment.getBranchName());
 
+		// deposit Date
 		textFieldDepDate = new JTextField();
 		textFieldDepDate.setEditable(false);
 		textFieldDepDate.setBounds(114, 476, 135, 20);
@@ -240,6 +254,7 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		textFieldDepDate.setColumns(10);
 		textFieldDepDate.setText(semesterPayment.getDate().toString());
 
+		// update button
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

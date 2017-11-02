@@ -23,7 +23,7 @@ import java.awt.event.ActionEvent;
 public class SemesterPaymentViewingUI extends JFrame {
 
 	/**
-	 * 
+	 * UI for search payment details for student
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -59,35 +59,39 @@ public class SemesterPaymentViewingUI extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
+		// set db connection to both Service and SemesterPaymentHandler classes
 		Service.setconnection();
 		SemesterPaymentHandler.setconnection();
-		
+
 		JLabel lblStudentId = new JLabel("Student ID");
 		lblStudentId.setBounds(47, 45, 80, 14);
 		contentPane.add(lblStudentId);
-		
+
+		// student id
 		textFieldStudentID = new JTextField();
 		textFieldStudentID.setBounds(137, 42, 86, 20);
 		contentPane.add(textFieldStudentID);
 		textFieldStudentID.setColumns(10);
-		
+
 		JLabel lblNic = new JLabel("NIC");
 		lblNic.setBounds(288, 45, 46, 14);
 		contentPane.add(lblNic);
-		
+
+		// student nic
 		textFieldNIC = new JTextField();
 		textFieldNIC.setBounds(344, 42, 86, 20);
 		contentPane.add(textFieldNIC);
 		textFieldNIC.setColumns(10);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(50, 121, 759, 291);
 		contentPane.add(scrollPane);
-		
+
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		
+
+		// search button
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -97,7 +101,6 @@ public class SemesterPaymentViewingUI extends JFrame {
 		});
 		btnSearch.setBounds(482, 41, 89, 23);
 		contentPane.add(btnSearch);
-		
-		
+
 	}
 }

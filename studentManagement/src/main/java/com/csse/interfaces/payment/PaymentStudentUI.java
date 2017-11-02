@@ -110,7 +110,7 @@ public class PaymentStudentUI extends JFrame {
 				paymentAdminUI.setVisible(true);
 			}
 		});
-		btnAdmin.setBounds(241, 293, 89, 23);
+		btnAdmin.setBounds(262, 292, 89, 23);
 		contentPane.add(btnAdmin);
 	}
 

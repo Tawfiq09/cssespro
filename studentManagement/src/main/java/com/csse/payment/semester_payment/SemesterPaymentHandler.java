@@ -10,6 +10,7 @@ import com.csse.payment.DBConnection;
 
 public class SemesterPaymentHandler {
 
+	// this class all db operations of semester payment
 	private static Connection connection = null;
 	private static PreparedStatement preparedStatement;
 	private static ResultSet resultSet;
@@ -20,7 +21,7 @@ public class SemesterPaymentHandler {
 		if (connection == null) {
 			try {
 				connection = DBConnection.getconnection();
-				// System.out.println("connected");
+				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -29,8 +30,32 @@ public class SemesterPaymentHandler {
 		}
 	}
 
-	// verify student
-	public static boolean verifystudent(SemesterPayment semesterPayment) {
+	// verify record already exist or not
+	public static boolean checkRecordAlreadyExist(SemesterPayment semesterPayment) {
+		int count = 0;
+		String studentId = semesterPayment.getStudentId();
+		Integer year = semesterPayment.getYear();
+		Integer semester = semesterPayment.getSemester();
+		String query = "select * from semesterpayment where student_id=? and year=? and semester=? ";
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, studentId);
+			preparedStatement.setInt(2, year);
+			preparedStatement.setInt(3, semester);
+			resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				count++;
+			}
+
+			if (count > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return false;
 	}
 
@@ -43,7 +68,7 @@ public class SemesterPaymentHandler {
 		Integer year = semesterPayment.getYear();
 		Integer semester = semesterPayment.getSemester();
 		String faculty = semesterPayment.getFaculty();
-		String specialication = semesterPayment.getSpecialication();
+		String specialization = semesterPayment.getSpecialication();
 		double courseFee = semesterPayment.getCourseFee();
 		java.util.Date registeredDate = semesterPayment.getRegisteredDate();
 		// bank details
@@ -55,9 +80,9 @@ public class SemesterPaymentHandler {
 		java.sql.Date sqlregisteredDate = new java.sql.Date(registeredDate.getTime());
 		java.sql.Date sqldate = new java.sql.Date(date.getTime());
 
-		String query = "insert into semesterpayment(student_id,student_name,student_email,curruent_year,year,semester,faculty,specialication,course_fee,registration_date,bank,branch,deposit_date,status) values('"
+		String query = "insert into semesterpayment(student_id,student_name,student_email,curruent_year,year,semester,faculty,specialization,course_fee,registration_date,bank,branch,deposit_date,status) values('"
 				+ studentId + "','" + studentName + "','" + studentEmail + "','" + currentYear + "','" + year + "','"
-				+ semester + "','" + faculty + "','" + specialication + "','" + courseFee + "','" + sqlregisteredDate
+				+ semester + "','" + faculty + "','" + specialization + "','" + courseFee + "','" + sqlregisteredDate
 				+ "','" + bankName + "','" + branchName + "','" + sqldate + "','" + status + "')";
 
 		try {
@@ -76,8 +101,9 @@ public class SemesterPaymentHandler {
 	public static ResultSet studentSearch(String id) {
 
 		int year = Calendar.getInstance().get(Calendar.YEAR);
-		String query = "select student_id,student_name,year,semester,faculty,specialication,course_fee,registration_date,bank,status"
-				+ " from semesterpayment where student_id=? and year=? ";
+		String query = "select student_id as 'Student Id',student_name as 'Student Name',curruent_year as 'Current Year',semester as 'Semester',"
+				+ "faculty as 'Faculty',specialization as 'Specialization',course_fee as 'Course Fee',registration_date as 'Registred Date',"
+				+ "bank as 'Bank',status as 'Status'" + " from semesterpayment where student_id=? and year=? ";
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, id);
@@ -96,7 +122,7 @@ public class SemesterPaymentHandler {
 	public static ResultSet adminSearchStudentWise(String sid, int year, int semester) {
 
 		String query = "select student_id as 'Student Id',student_name as 'Student Name',student_email as 'Student Email',curruent_year as 'Current Year',"
-				+ "year as 'Year',semester as 'Semester',faculty as 'Faculty',specialication as 'Specialication',"
+				+ "year as 'Year',semester as 'Semester',faculty as 'Faculty',specialization as 'Specialization',"
 				+ "course_fee as 'Course Fee',registration_date as 'Registred Date',bank as 'Bank',branch as 'Branch',deposit_date as 'Deposit Date',status as 'Status'"
 				+ " from semesterpayment where student_id=? and year=? and semester=?";
 		try {
@@ -118,7 +144,7 @@ public class SemesterPaymentHandler {
 	public static ResultSet adminSearchFacultytWise(String faculty, int year, int semester, int current_year) {
 
 		String query = "select student_id as 'Student Id',student_name as 'Student Name',student_email as 'Student Email',curruent_year as 'Current Year',"
-				+ "year as 'Year',semester as 'Semester',faculty as 'Faculty',specialication as 'Specialication',"
+				+ "year as 'Year',semester as 'Semester',faculty as 'Faculty',specialization as 'Specialization',"
 				+ "course_fee as 'Course Fee',registration_date as 'Registred Date',bank as 'Bank',branch as 'Branch',deposit_date as 'Deposit Date',status as 'Status'"
 				+ " from semesterpayment where faculty=? and year=? and semester=? and curruent_year=?";
 		try {
@@ -137,6 +163,7 @@ public class SemesterPaymentHandler {
 		return null;
 	}
 
+	// update semester payment status
 	public static boolean upadte(String sid, int year, int semester, String status) {
 
 		String query = "update semesterpayment set status = '" + status
