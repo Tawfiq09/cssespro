@@ -272,5 +272,25 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 		});
 		btnUpdate.setBounds(333, 387, 116, 44);
 		contentPane.add(btnUpdate);
+		
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int dialogResult = JOptionPane.showConfirmDialog (null, "Do yo want to delete this record?","Warning",JOptionPane.YES_NO_OPTION);
+				if(dialogResult == JOptionPane.YES_OPTION){
+					String sid = textFieldStudentID.getText();
+					int year = Integer.parseInt(textFieldYear.getText());
+					int semester = Integer.parseInt(textFieldSemester.getText());
+					boolean result = SemesterPaymentHandler.delete(sid, year, semester);
+					if (result) {
+						JOptionPane.showMessageDialog(null, "Successfully Delete");
+					} else {
+						JOptionPane.showMessageDialog(null, "Some thing wrong in database");
+					}
+				}
+			}
+		});
+		btnDelete.setBounds(500, 387, 116, 44);
+		contentPane.add(btnDelete);
 	}
 }

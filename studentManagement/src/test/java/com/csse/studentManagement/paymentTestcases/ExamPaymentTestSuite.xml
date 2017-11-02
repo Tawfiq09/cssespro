@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Exam_Payment_Suite">
+  <test name="Exam_Payment_Test">
+    <classes>
+      <class name="com.csse.studentManagement.paymentTestcases.ExamPaymentTestCase"/>
+    </classes>
+  </test> <!-- Exam_Payment_Test -->
+</suite> <!-- Exam_Payment_Suite -->
