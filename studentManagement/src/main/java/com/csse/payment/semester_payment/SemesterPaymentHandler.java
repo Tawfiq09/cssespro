@@ -21,7 +21,7 @@ public class SemesterPaymentHandler {
 		if (connection == null) {
 			try {
 				connection = DBConnection.getconnection();
-				// System.out.println("connected");
+				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -30,7 +30,7 @@ public class SemesterPaymentHandler {
 		}
 	}
 
-	// verify student
+	// verify record already exist or not
 	public static boolean checkRecordAlreadyExist(SemesterPayment semesterPayment) {
 		int count = 0;
 		String studentId = semesterPayment.getStudentId();
