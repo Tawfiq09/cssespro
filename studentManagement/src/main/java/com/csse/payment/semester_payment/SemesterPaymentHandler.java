@@ -21,7 +21,7 @@ public class SemesterPaymentHandler {
 		if (connection == null) {
 			try {
 				connection = DBConnection.getconnection();
-				
+
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -180,6 +180,23 @@ public class SemesterPaymentHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 
+		}
+		return false;
+	}
+
+	// delete record from semester payment
+	public static boolean delete(String sid, int year, int semester) {
+		String query = "delete from semesterpayment where student_id=? and year=? and semester=? ";
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, sid);
+			preparedStatement.setInt(2, year);
+			preparedStatement.setInt(3, semester);
+			preparedStatement.execute();
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return false;
 	}
