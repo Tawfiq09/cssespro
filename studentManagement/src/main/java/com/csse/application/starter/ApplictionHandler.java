@@ -1,15 +1,25 @@
 package com.csse.application.starter;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Properties;
 
 import com.csse.admin.RestServer;
 import com.csse.common.utill.ApplicationConfig;
 import com.csse.common.utill.Filehandler;
+import com.csse.db.utill.ConnectionPool;
+import com.csse.db.utill.DAOManager;
 
 public class ApplictionHandler {
 
 	public static volatile Properties CONFIGS;
+	
+	public static void start() throws ClassNotFoundException, SQLException {
+		ApplictionHandler.initProperties();
+		ApplictionHandler.initPoolConnection();
+		ApplictionHandler.startRestService();
+		
+	}
 	
 	public static void startRestService(){
 		new Thread(new Runnable() {
@@ -34,4 +44,8 @@ public class ApplictionHandler {
 		}
 	}
 	
+	public static void initPoolConnection() throws ClassNotFoundException, SQLException {
+		DAOManager dmger =new DAOManager();
+		dmger.startConnectionPool();
+	}
 }

@@ -9,10 +9,15 @@ import javax.swing.JFrame;
 import com.csse.application.starter.ApplictionHandler;
 import com.csse.common.utill.ApplicationConfig;
 import com.csse.common.utill.Filehandler;
-
+import com.csse.db.utill.ConnectionPool;
+import com.csse.db.utill.DAOManager;
+import com.csse.db.utill.StudentDAO;
 import com.csse.admin.RestServer;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
 
 
@@ -28,12 +33,15 @@ public class MainInt {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ApplictionHandler.initProperties();
-					ApplictionHandler.startRestService();
+					ApplictionHandler.start();
 					System.out.println("name is:"+	ApplictionHandler.CONFIGS.getProperty(ApplicationConfig.FILE));
 					Properties stuprops = Filehandler.loadPropertiesFromFile(ApplictionHandler.CONFIGS.getProperty(ApplicationConfig.FILE));
 					System.out.println(stuprops.getProperty("name"));
-					MainInt window = new MainInt();
+					
+					/*MainInt window = new MainInt();
+					window.frame.setVisible(true);*/
+					
+					StudentRegistrationUI window = new StudentRegistrationUI();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -67,5 +75,15 @@ public class MainInt {
 		});
 		btnPayment.setBounds(306, 46, 89, 23);
 		frame.getContentPane().add(btnPayment);
+		
+		JButton btnRegistration = new JButton("Registration");
+		btnRegistration.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				StudentRegistrationUI studentRegistrationUI = new StudentRegistrationUI();
+				studentRegistrationUI.setVisible(true);
+			}
+		});
+		btnRegistration.setBounds(306, 46, 89, 23);
+		frame.getContentPane().add(btnRegistration);
 	}
 }

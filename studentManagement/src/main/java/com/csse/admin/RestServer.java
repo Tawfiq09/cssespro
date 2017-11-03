@@ -12,7 +12,6 @@ public class RestServer {
 	        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 	        context.setContextPath("/");
 
-	        //TODO make this configurable
 	        int adminPort = 8081;
 	      
 	        Server jettyServer = new Server(adminPort);
