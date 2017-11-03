@@ -90,4 +90,21 @@ public class Service {
 
 	}
 
+	public static boolean verifyStudent(String studentId, String nic) throws SQLException {
+		int count = 0;
+		String query = "select * from registration where id=? and nic=?";
+		preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, studentId);
+		preparedStatement.setString(2, nic);
+		resultSet = preparedStatement.executeQuery();
+		while (resultSet.next()) {
+			count++;
+		}
+		if (count > 0) {
+			return true;
+		}
+
+		return false;
+	}
+
 }
