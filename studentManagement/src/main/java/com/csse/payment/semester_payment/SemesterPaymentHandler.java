@@ -16,16 +16,11 @@ public class SemesterPaymentHandler {
 	private static ResultSet resultSet;
 
 	// set db connection
-	public static void setconnection() {
+	public static void setconnection() throws ClassNotFoundException {
 
 		if (connection == null) {
-			try {
-				connection = DBConnection.getconnection();
 
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			connection = DBConnection.getconnection();
 
 		}
 	}
@@ -52,8 +47,7 @@ public class SemesterPaymentHandler {
 				return true;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return false;
 		}
 
 		return false;
@@ -90,64 +84,55 @@ public class SemesterPaymentHandler {
 			preparedStatement.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return false;
 		}
 
-		return false;
 	}
 
 	// search for student perspective
-	public static ResultSet studentSearch(String id) {
+	public static ResultSet studentSearch(String id) throws SQLException {
 
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		String query = "select student_id as 'Student Id',student_name as 'Student Name',curruent_year as 'Current Year',semester as 'Semester',"
 				+ "faculty as 'Faculty',specialization as 'Specialization',course_fee as 'Course Fee',registration_date as 'Registred Date',"
 				+ "bank as 'Bank',status as 'Status'" + " from semesterpayment where student_id=? and year=? ";
-		try {
+		
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, id);
 			preparedStatement.setInt(2, year);
 			resultSet = preparedStatement.executeQuery();
 			return resultSet;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return null;
+		
 	}
 
 	// search student wise admin perspective
-	public static ResultSet adminSearchStudentWise(String sid, int year, int semester) {
+	public static ResultSet adminSearchStudentWise(String sid, int year, int semester) throws SQLException {
 
 		String query = "select student_id as 'Student Id',student_name as 'Student Name',student_email as 'Student Email',curruent_year as 'Current Year',"
 				+ "year as 'Year',semester as 'Semester',faculty as 'Faculty',specialization as 'Specialization',"
 				+ "course_fee as 'Course Fee',registration_date as 'Registred Date',bank as 'Bank',branch as 'Branch',deposit_date as 'Deposit Date',status as 'Status'"
 				+ " from semesterpayment where student_id=? and year=? and semester=?";
-		try {
+	
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, sid);
 			preparedStatement.setInt(2, year);
 			preparedStatement.setInt(3, semester);
 			resultSet = preparedStatement.executeQuery();
 			return resultSet;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 
-		return null;
+		
 	}
 
 	// search faculty wise admin perspective
-	public static ResultSet adminSearchFacultytWise(String faculty, int year, int semester, int current_year) {
+	public static ResultSet adminSearchFacultytWise(String faculty, int year, int semester, int current_year)
+			throws SQLException {
 
 		String query = "select student_id as 'Student Id',student_name as 'Student Name',student_email as 'Student Email',curruent_year as 'Current Year',"
 				+ "year as 'Year',semester as 'Semester',faculty as 'Faculty',specialization as 'Specialization',"
 				+ "course_fee as 'Course Fee',registration_date as 'Registred Date',bank as 'Bank',branch as 'Branch',deposit_date as 'Deposit Date',status as 'Status'"
 				+ " from semesterpayment where faculty=? and year=? and semester=? and curruent_year=?";
-		try {
+		
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, faculty);
 			preparedStatement.setInt(2, year);
@@ -155,16 +140,11 @@ public class SemesterPaymentHandler {
 			preparedStatement.setInt(4, current_year);
 			resultSet = preparedStatement.executeQuery();
 			return resultSet;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return null;
+		
 	}
 
 	// update semester payment status
-	public static boolean upadte(String sid, int year, int semester, String status) {
+	public static boolean update(String sid, int year, int semester, String status) {
 
 		String query = "update semesterpayment set status = '" + status
 				+ "' where student_id=? and year=? and semester=?  ";
@@ -177,11 +157,10 @@ public class SemesterPaymentHandler {
 			return true;
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return false;
 
 		}
-		return false;
+		
 	}
 
 	// delete record from semester payment
@@ -195,10 +174,9 @@ public class SemesterPaymentHandler {
 			preparedStatement.execute();
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return false;
 		}
-		return false;
+		
 	}
 
 }

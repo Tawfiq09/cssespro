@@ -16,16 +16,12 @@ public class ExamPaymentHandler {
 	private static ResultSet resultSet;
 
 	// set db connection
-	public static void setconnection() {
+	public static void setconnection() throws ClassNotFoundException {
 
 		if (connection == null) {
-			try {
-				connection = DBConnection.getconnection();
-				// System.out.println("connected");
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
+			connection = DBConnection.getconnection();
+			// System.out.println("connected");
 
 		}
 	}
@@ -57,8 +53,7 @@ public class ExamPaymentHandler {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return false;
 		}
 
 		return false;
@@ -95,78 +90,62 @@ public class ExamPaymentHandler {
 			preparedStatement.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return false;
 		}
 
-		return false;
 	}
 
 	// search student perspective
-	public static ResultSet studentSearch(String student_id) {
+	public static ResultSet studentSearch(String student_id) throws SQLException {
 
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		String query = "select student_id as 'Student Id',student_name as 'Student Name',faculty as 'Faculty',"
 				+ "examination as 'Examination',registered_date as 'Registered Date',exam_fee as 'Exam Fee',"
 				+ "bank as 'Bank',status as 'Status' from exampayment where student_id=? and Year(registered_date)=?";
-		try {
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, student_id);
-			preparedStatement.setInt(2, year);
-			resultSet = preparedStatement.executeQuery();
-			return resultSet;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
-		return null;
+		preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, student_id);
+		preparedStatement.setInt(2, year);
+		resultSet = preparedStatement.executeQuery();
+		return resultSet;
+
 	}
 
 	// admin perspective student wise search
-	public static ResultSet searchStudent(String student_id, int year) {
+	public static ResultSet searchStudent(String student_id, int year) throws SQLException {
 		String query = "select student_id as 'Student ID', student_name as 'Student Name', student_email as 'Student Email', "
 				+ "year as 'Year', faculty as 'Faculty', year_of_university as 'year of university' , specialization as 'Specialization', "
 				+ "semester as 'Semester', examination as 'Examination', registered_date as 'Registered Date', exam_fee as 'Exam Fee',"
 				+ " bank as 'bank', branch as 'Branch', deposite_date as 'Deposit_date', status as 'Status' "
 				+ "from exampayment where student_id=? and Year(registered_date)=?";
-		try {
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, student_id);
-			preparedStatement.setInt(2, year);
-			resultSet = preparedStatement.executeQuery();
-			return resultSet;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
-		return null;
+		preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, student_id);
+		preparedStatement.setInt(2, year);
+		resultSet = preparedStatement.executeQuery();
+		return resultSet;
+
 	}
 
 	// admin perspective exam wise search
-	public static ResultSet search(String exam, int year) {
+	public static ResultSet search(String exam, int year) throws SQLException {
 
 		String query = "select student_id as 'Student ID', student_name as 'Student Name', student_email as 'Student Email',"
 				+ " year as 'Year', faculty as 'Faculty', year_of_university as 'year of university' , specialization as 'Specialization',"
 				+ " semester as 'Semester', examination as 'Examination', registered_date as 'Registered Date', exam_fee as 'Exam Fee',"
 				+ " bank as 'bank', branch as 'Branch', deposite_date as 'Deposit_date', status as 'Status' "
 				+ "from exampayment where examination=? and Year(registered_date)=?";
-		try {
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, exam);
-			preparedStatement.setInt(2, year);
-			resultSet = preparedStatement.executeQuery();
-			return resultSet;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+
+		preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, exam);
+		preparedStatement.setInt(2, year);
+		resultSet = preparedStatement.executeQuery();
+		return resultSet;
+
 	}
 
 	// update exam payment
-	public static boolean upadte(String sid, java.sql.Date regDate, String examination, String status) {
+	public static boolean update(String sid, java.sql.Date regDate, String examination, String status) {
 
 		String query = "update exampayment set status = '" + status
 				+ "' where student_id=? and registered_date=? and examination=?  ";
@@ -179,14 +158,13 @@ public class ExamPaymentHandler {
 			return true;
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return false;
 
 		}
-		return false;
+
 	}
 
-	//method for delete exam payment recode
+	// method for delete exam payment recode
 	public static boolean delete(String sid, int year, int semester, String examination) {
 		String query = "delete from exampayment where student_id=? and year=? and semester=? and examination=? ";
 		try {
@@ -199,9 +177,8 @@ public class ExamPaymentHandler {
 			return true;
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return false;
 		}
-		return false;
+
 	}
 }

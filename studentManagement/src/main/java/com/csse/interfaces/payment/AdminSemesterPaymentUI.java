@@ -24,6 +24,7 @@ import com.csse.payment.semester_payment.SemesterPaymentHandler;
 import com.toedter.calendar.JYearChooser;
 
 import net.proteanit.sql.DbUtils;
+import net.sf.jasperreports.engine.JRException;
 
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -80,10 +81,19 @@ public class AdminSemesterPaymentUI extends JFrame {
 		contentPane.setLayout(null);
 
 		// set db connection for both Service and SemesterPaymentHandler classes
-		Service.setconnection();
-		SemesterPaymentHandler.setconnection();
+		try {
+			Service.setconnection();
+		} catch (ClassNotFoundException e2) {
+			JOptionPane.showMessageDialog(null, "Db connection error");
+		}
+		try {
+			SemesterPaymentHandler.setconnection();
+		} catch (ClassNotFoundException e2) {
+			JOptionPane.showMessageDialog(null, "Db connection error");
+		}
 		ReportGenerator.setconnection();
 
+		// load payment property file and pass it to ReportGenerator
 		Properties payment;
 		try {
 			payment = Filehandler.loadPropertiesFromFile(
@@ -171,6 +181,9 @@ public class AdminSemesterPaymentUI extends JFrame {
 
 		// panel 1 search button
 		JButton btnSearch = new JButton("Search");
+		btnSearch.setForeground(Color.WHITE);
+		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnSearch.setBackground(Color.BLUE);
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -178,8 +191,12 @@ public class AdminSemesterPaymentUI extends JFrame {
 					String sid = textFieldStudentID.getText();
 					int year = yearChooser.getValue();
 					int semester = Integer.parseInt((String) comboBoxSemester.getSelectedItem());
-					table.setModel(DbUtils
-							.resultSetToTableModel(SemesterPaymentHandler.adminSearchStudentWise(sid, year, semester)));
+					try {
+						table.setModel(DbUtils.resultSetToTableModel(
+								SemesterPaymentHandler.adminSearchStudentWise(sid, year, semester)));
+					} catch (SQLException e) {
+						JOptionPane.showMessageDialog(null, "Db error");
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Please enter Student Id");
 				}
@@ -191,6 +208,9 @@ public class AdminSemesterPaymentUI extends JFrame {
 
 		// panel 1 generate report button
 		JButton btnGenerateReport = new JButton("Generate Report");
+		btnGenerateReport.setForeground(Color.WHITE);
+		btnGenerateReport.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnGenerateReport.setBackground(Color.BLUE);
 		btnGenerateReport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!textFieldStudentID.getText().trim().isEmpty()) {
@@ -198,7 +218,12 @@ public class AdminSemesterPaymentUI extends JFrame {
 					parameters.put("student_id", textFieldStudentID.getText());
 					parameters.put("year", String.valueOf(yearChooser.getValue()));
 					parameters.put("semester", comboBoxSemester.getSelectedItem().toString());
-					ReportGenerator.generateStdSemPayReport(parameters);
+					try {
+						ReportGenerator.generateStdSemPayReport(parameters);
+					} catch (JRException e) {
+						
+						JOptionPane.showMessageDialog(null, "Jasper Report Error");
+					}
 				}
 			}
 		});
@@ -232,7 +257,11 @@ public class AdminSemesterPaymentUI extends JFrame {
 		JComboBox<String> comboBoxFaculty = new JComboBox<String>();
 		comboBoxFaculty.setBounds(123, 44, 152, 20);
 		panel2.add(comboBoxFaculty);
-		fillFacultyComboBox(comboBoxFaculty, Service.fillFaculty());
+		try {
+			fillFacultyComboBox(comboBoxFaculty, Service.fillFaculty());
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, "Db error");
+		}
 
 		// semester panel 2
 		JComboBox<String> comboBoxSemesterF = new JComboBox<String>();
@@ -253,14 +282,22 @@ public class AdminSemesterPaymentUI extends JFrame {
 
 		// panel 2 search button
 		JButton btnSearchF = new JButton("Search");
+		btnSearchF.setForeground(Color.WHITE);
+		btnSearchF.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnSearchF.setBackground(Color.BLUE);
 		btnSearchF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String faculty = (String) comboBoxFaculty.getSelectedItem();
 				int year = yearChooser_1.getValue();
 				int semester = Integer.parseInt((String) comboBoxSemesterF.getSelectedItem());
 				int current_year = Integer.parseInt((String) comboBoxUnYear.getSelectedItem());
-				table.setModel(DbUtils.resultSetToTableModel(
-						SemesterPaymentHandler.adminSearchFacultytWise(faculty, year, semester, current_year)));
+				// fill table by calling SemesterPaymentHandler.adminSearchFacultytWise method
+				try {
+					table.setModel(DbUtils.resultSetToTableModel(
+							SemesterPaymentHandler.adminSearchFacultytWise(faculty, year, semester, current_year)));
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "Db error");
+				}
 			}
 		});
 		btnSearchF.setBounds(32, 199, 89, 23);
@@ -268,6 +305,9 @@ public class AdminSemesterPaymentUI extends JFrame {
 
 		// panel 2 generate report button
 		JButton btnGenerateReportF = new JButton("Generate Report");
+		btnGenerateReportF.setForeground(Color.WHITE);
+		btnGenerateReportF.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnGenerateReportF.setBackground(Color.BLUE);
 		btnGenerateReportF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HashMap<String, Object> parameters = new HashMap<>();
@@ -275,7 +315,11 @@ public class AdminSemesterPaymentUI extends JFrame {
 				parameters.put("faculty", comboBoxFaculty.getSelectedItem());
 				parameters.put("curruent_year", comboBoxUnYear.getSelectedItem().toString());
 				parameters.put("semester", comboBoxSemesterF.getSelectedItem().toString());
-				ReportGenerator.generateFacSemPayReport(parameters);
+				try {
+					ReportGenerator.generateFacSemPayReport(parameters);
+				} catch (JRException e1) {
+					JOptionPane.showMessageDialog(null, "Jasper Report Error");
+				}
 			}
 		});
 		btnGenerateReportF.setBounds(152, 199, 140, 23);
@@ -294,8 +338,7 @@ public class AdminSemesterPaymentUI extends JFrame {
 				jComboBox.addItem(resultSet.getString("faculty_name"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Db error");
 		}
 
 	}

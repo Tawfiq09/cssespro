@@ -36,7 +36,7 @@ public class SemesterPaymentTestCase {
 	ResultSet resultSet;
 
 	@BeforeTest
-	public void beforeTest() {
+	public void beforeTest() throws ClassNotFoundException {
 		SemesterPaymentHandler.setconnection();
 
 		semeterpayment.setStudentId(studentId);
@@ -68,7 +68,7 @@ public class SemesterPaymentTestCase {
 
 	// test for student perspective search
 	@Test(groups = "payment.semester", dependsOnMethods = { "addpayment" })
-	public void studentSearch() {
+	public void studentSearch() throws SQLException {
 		resultSet = SemesterPaymentHandler.studentSearch(studentId);
 
 		try {
@@ -85,7 +85,7 @@ public class SemesterPaymentTestCase {
 
 	// test for admin perspective student wise search
 	@Test(groups = "payment.semester", dependsOnMethods = { "addpayment" })
-	public void adminSearchStudentWise() {
+	public void adminSearchStudentWise() throws SQLException {
 		resultSet = SemesterPaymentHandler.adminSearchStudentWise(studentId, year, semester);
 
 		try {
@@ -120,7 +120,7 @@ public class SemesterPaymentTestCase {
 	@Test(groups = "payment.semester", dependsOnMethods = { "addpayment" })
 	public void update() {
 		try {
-			assertTrue(SemesterPaymentHandler.upadte(studentId, year, semester, "verified"));
+			assertTrue(SemesterPaymentHandler.update(studentId, year, semester, "verified"));
 		} catch (Exception e) {
 
 		}

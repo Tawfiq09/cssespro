@@ -69,17 +69,27 @@ public class ExamPaymentUI extends JFrame {
 	 * Create the frame.
 	 */
 	public ExamPaymentUI() {
+		setResizable(false);
 		setTitle("Exam Payment");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 760, 516);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		// set db connection for both Service and ExamPaymentHandler
-		Service.setconnection();
-		ExamPaymentHandler.setconnection();
+		try {
+			Service.setconnection();
+		} catch (ClassNotFoundException e2) {
+			JOptionPane.showMessageDialog(null, "Db connection error");
+		}
+		try {
+			ExamPaymentHandler.setconnection();
+		} catch (ClassNotFoundException e3) {
+			JOptionPane.showMessageDialog(null, "Db connection error");
+		}
 
 		JLabel lblStudentId = new JLabel("Student ID");
 		lblStudentId.setBounds(10, 40, 82, 14);
@@ -172,14 +182,22 @@ public class ExamPaymentUI extends JFrame {
 					String faculty = (String) comboBoxFaculty.getSelectedItem();
 					int year = Integer.parseInt((String) comboBoxCurrentYear.getSelectedItem());
 					comboBoxSpecialization.removeAllItems();
-					fillSpecialicationComboBox(comboBoxSpecialization, Service.fillSpecialication(faculty, year));
+					try {
+						fillSpecialicationComboBox(comboBoxSpecialization, Service.fillSpecialication(faculty, year));
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(null, "Db error");
+					}
 				}
 			}
 		});
 		comboBoxFaculty.setModel(new DefaultComboBoxModel<String>(new String[] { "select" }));
 		comboBoxFaculty.setBounds(142, 197, 180, 20);
 		contentPane.add(comboBoxFaculty);
-		fillFacultyComboBox(comboBoxFaculty, Service.fillFaculty());
+		try {
+			fillFacultyComboBox(comboBoxFaculty, Service.fillFaculty());
+		} catch (SQLException e2) {
+			JOptionPane.showMessageDialog(null, "Db error");
+		}
 
 		// current year of university
 		comboBoxCurrentYear = new JComboBox<String>();
@@ -190,7 +208,11 @@ public class ExamPaymentUI extends JFrame {
 					String faculty = (String) comboBoxFaculty.getSelectedItem();
 					int year = Integer.parseInt((String) comboBoxCurrentYear.getSelectedItem());
 					comboBoxSpecialization.removeAllItems();
-					fillSpecialicationComboBox(comboBoxSpecialization, Service.fillSpecialication(faculty, year));
+					try {
+						fillSpecialicationComboBox(comboBoxSpecialization, Service.fillSpecialication(faculty, year));
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(null, "Db error");
+					}
 				}
 			}
 		});
@@ -251,17 +273,18 @@ public class ExamPaymentUI extends JFrame {
 					String specialization = (String) comboBoxSpecialization.getSelectedItem();
 					int semester = Integer.parseInt((String) comboBoxsemeste.getSelectedItem());
 					int year = Integer.parseInt(textFieldYear.getText());
-					ResultSet resultSet = Service.getExaminationDetails(faculty, year_of_university, specialization,
-							semester, year);
+					ResultSet resultSet;
 					try {
+						resultSet = Service.getExaminationDetails(faculty, year_of_university, specialization, semester,
+								year);
 						while (resultSet.next()) {
 							textFieldExamination.setText(resultSet.getString("exam_Name"));
 							textFieldExamFee.setText(String.valueOf(resultSet.getDouble("exam_fee")));
 						}
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					} catch (SQLException e2) {
+						JOptionPane.showMessageDialog(null, "Db error");
 					}
+
 				}
 			}
 		});
@@ -278,6 +301,9 @@ public class ExamPaymentUI extends JFrame {
 
 		// submit button
 		JButton btnSubmit = new JButton("Submit");
+		btnSubmit.setForeground(Color.WHITE);
+		btnSubmit.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnSubmit.setBackground(Color.BLUE);
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!isempty()) {
@@ -299,6 +325,7 @@ public class ExamPaymentUI extends JFrame {
 						examPayment.setDeposit_date(dateChooserDepDate.getDate());
 						examPayment.setStatus("pending");
 						if (!ExamPaymentHandler.checkRecordAlreadyExist(examPayment)) {
+							// add payment
 							boolean result = ExamPaymentHandler.add(examPayment);
 							if (result) {
 								JOptionPane.showMessageDialog(null, "successfully Recorded");
@@ -316,7 +343,7 @@ public class ExamPaymentUI extends JFrame {
 				}
 			}
 		});
-		btnSubmit.setBounds(500, 276, 115, 46);
+		btnSubmit.setBounds(571, 384, 115, 46);
 		contentPane.add(btnSubmit);
 
 		JLabel label = new JLabel("*");
@@ -405,8 +432,7 @@ public class ExamPaymentUI extends JFrame {
 				jComboBox.addItem(resultSet.getString("faculty_name"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Db error");
 		}
 
 	}
@@ -418,8 +444,7 @@ public class ExamPaymentUI extends JFrame {
 				jComboBox.addItem(resultSet.getString("specialization"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Db error");
 		}
 
 	}

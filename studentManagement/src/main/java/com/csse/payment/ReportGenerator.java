@@ -32,40 +32,37 @@ public class ReportGenerator {
 		}
 	}
 
+	// load file locations using property file
 	public static void loadPropertyFile(Properties properties) {
 		report_one = properties.getProperty("report_one");
 		report_two = properties.getProperty("report_two");
 	}
 
-	public static void generateFacSemPayReport(HashMap<String, Object> parameters) {
+	// method for generate faculty wise semester payment report
+	public static void generateFacSemPayReport(HashMap<String, Object> parameters) throws JRException {
 
 		if (report_one != null) {
 			String report = report_one;
-			try {
+			
 				JasperReport jasperReport = JasperCompileManager.compileReport(report);
 				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
-				JasperViewer.viewReport(jasperPrint);
-			} catch (JRException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				JasperViewer.viewReport(jasperPrint,false);
+			
 		}
 
 	}
 
-	public static void generateStdSemPayReport(HashMap<String, Object> parameters) {
+	// method for generate student wise semester payment report
+	public static void generateStdSemPayReport(HashMap<String, Object> parameters) throws JRException {
 
 		if (report_two != null) {
 			String report = report_two;
 
-			try {
+			
 				JasperReport jasperReport = JasperCompileManager.compileReport(report);
 				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
-				JasperViewer.viewReport(jasperPrint);
-			} catch (JRException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				JasperViewer.viewReport(jasperPrint,false);
+			
 		}
 
 	}
