@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.csse.payment.Service;
 import com.csse.payment.exam_payment.ExamPaymentHandler;
 
 import net.proteanit.sql.DbUtils;
@@ -22,6 +23,7 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
 
 public class ExamPaymentViewingUI extends JFrame {
 
@@ -95,25 +97,35 @@ public class ExamPaymentViewingUI extends JFrame {
 		scrollPane.setBounds(10, 98, 722, 295);
 		contentPane.add(scrollPane);
 
-		//table
+		// table
 		table = new JTable();
 		scrollPane.setViewportView(table);
 
-		//search button
+		// search button
 		JButton btnSearch = new JButton("Search");
 		btnSearch.setForeground(Color.WHITE);
 		btnSearch.setBackground(Color.BLUE);
 		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!textFieldStudentId.getText().trim().isEmpty()) {
+				if (!textFieldStudentId.getText().trim().isEmpty() && !textFieldNic.getText().isEmpty()) {
 					try {
-						resultSet = ExamPaymentHandler.studentSearch(textFieldStudentId.getText());
-						table.setModel(DbUtils.resultSetToTableModel(resultSet));
-					} catch (SQLException e1) {
+						if (Service.verifyStudent(textFieldStudentId.getText(), textFieldNic.getText())) {
+							try {
+								resultSet = ExamPaymentHandler.studentSearch(textFieldStudentId.getText());
+								table.setModel(DbUtils.resultSetToTableModel(resultSet));
+							} catch (SQLException e1) {
+								JOptionPane.showMessageDialog(null, "Db error");
+							}
+						} else {
+							JOptionPane.showMessageDialog(null, "please enter valid student id and NIC");
+						}
+					} catch (HeadlessException | SQLException e1) {
 						JOptionPane.showMessageDialog(null, "Db error");
 					}
-					
+
+				} else {
+					JOptionPane.showMessageDialog(null, "please enter student id and NIC");
 				}
 			}
 		});

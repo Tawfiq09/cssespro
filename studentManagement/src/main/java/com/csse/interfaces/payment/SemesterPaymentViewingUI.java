@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
 
 public class SemesterPaymentViewingUI extends JFrame {
 
@@ -112,11 +113,23 @@ public class SemesterPaymentViewingUI extends JFrame {
 		btnSearch.setBackground(Color.BLUE);
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					resultSet = SemesterPaymentHandler.studentSearch(textFieldStudentID.getText());
-					table.setModel(DbUtils.resultSetToTableModel(resultSet));
-				} catch (SQLException e) {
-					JOptionPane.showMessageDialog(null, "Db error");
+				if (!textFieldStudentID.getText().trim().isEmpty() && !textFieldNIC.getText().trim().isEmpty()) {
+					try {
+						if (Service.verifyStudent(textFieldStudentID.getText(), textFieldNIC.getText())) {
+							try {
+								resultSet = SemesterPaymentHandler.studentSearch(textFieldStudentID.getText());
+								table.setModel(DbUtils.resultSetToTableModel(resultSet));
+							} catch (SQLException e) {
+								JOptionPane.showMessageDialog(null, "Db error");
+							}
+						} else {
+							JOptionPane.showMessageDialog(null, "please enter valid student id and NIC");
+						}
+					} catch (HeadlessException | SQLException e) {
+						JOptionPane.showMessageDialog(null, "Db error");
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "please enter student id and NIC");
 				}
 
 			}
