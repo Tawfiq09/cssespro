@@ -152,7 +152,7 @@ public static ResultSet courseload() {
 
 		String query = "update courses set course_name='" + course_name + "',no_of_credits='" + no_of_credits
 				+ "',faculty='" + faculty + "',graduate='" + graduate + "',year='" + year + "',sub_stream='" + sub_stream
-				+ "',lecture_in_chrge='" + lecture_in_charge + "',from_date='" + sqlfromdate + "',to_date='" + sqltodate + "' where"
+				+ "',lecture_in_charge='" + lecture_in_charge + "',from_date='" + sqlfromdate + "',to_date='" + sqltodate + "' where "
 						+ "course_code =?";
 		try {
 			preparedStatement = connection.prepareStatement(query);

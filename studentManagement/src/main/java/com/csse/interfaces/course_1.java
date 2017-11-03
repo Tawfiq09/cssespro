@@ -18,6 +18,8 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.SystemColor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class course_1 extends JFrame {
 
@@ -73,7 +75,7 @@ public class course_1 extends JFrame {
 		panel_1.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(141, 167, 477, 179);
+		scrollPane.setBounds(141, 162, 477, 119);
 		panel_1.add(scrollPane);
 		
 		table = new JTable();
@@ -89,46 +91,59 @@ public class course_1 extends JFrame {
 		
 		JLabel lblFrom = new JLabel("From");
 		lblFrom.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblFrom.setBounds(24, 71, 46, 20);
+		lblFrom.setBounds(22, 97, 46, 20);
 		panel_1.add(lblFrom);
 		
 		JLabel lblNewLabel = new JLabel("To");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel.setBounds(207, 71, 37, 20);
+		lblNewLabel.setBounds(206, 97, 37, 20);
 		panel_1.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Description");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_1.setBounds(372, 71, 79, 20);
+		lblNewLabel_1.setBounds(372, 97, 79, 20);
 		panel_1.add(lblNewLabel_1);
 		
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(65, 71, 110, 20);
-		panel_1.add(dateChooser);
+		JDateChooser from_date = new JDateChooser();
+		from_date.setBounds(65, 97, 110, 20);
+		panel_1.add(from_date);
 		
-		JDateChooser dateChooser_1 = new JDateChooser();
-		dateChooser_1.setBounds(242, 71, 110, 20);
-		panel_1.add(dateChooser_1);
+		JDateChooser to_date = new JDateChooser();
+		to_date.setBounds(242, 97, 110, 20);
+		panel_1.add(to_date);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(461, 71, 133, 46);
+		scrollPane_1.setBounds(461, 95, 133, 46);
 		panel_1.add(scrollPane_1);
 		
-		JTextArea textArea = new JTextArea();
-		scrollPane_1.setViewportView(textArea);
+		JTextArea descript = new JTextArea();
+		scrollPane_1.setViewportView(descript);
 		
 		JLabel lblAddSchedule = new JLabel("Add Schedule");
 		lblAddSchedule.setForeground(Color.DARK_GRAY);
 		lblAddSchedule.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblAddSchedule.setBounds(10, 11, 141, 34);
+		lblAddSchedule.setBounds(10, 22, 141, 34);
 		panel_1.add(lblAddSchedule);
 		
 		JButton btnAdd = new JButton("Add");
 		btnAdd.setForeground(Color.DARK_GRAY);
 		btnAdd.setFont(new Font("Cambria", Font.BOLD, 14));
 		btnAdd.setBackground(new Color(60, 179, 113));
-		btnAdd.setBounds(632, 71, 89, 31);
+		btnAdd.setBounds(629, 92, 89, 31);
 		panel_1.add(btnAdd);
+		
+		JLabel label = new JLabel("");
+		label.setForeground(Color.DARK_GRAY);
+		label.setFont(new Font("Tahoma", Font.BOLD, 18));
+		label.setBounds(199, 22, 141, 34);
+		panel_1.add(label);
+		
+		JButton btnSave = new JButton("Save");
+		btnSave.setForeground(Color.DARK_GRAY);
+		btnSave.setFont(new Font("Cambria", Font.BOLD, 14));
+		btnSave.setBackground(new Color(60, 179, 113));
+		btnSave.setBounds(629, 318, 89, 31);
+		panel_1.add(btnSave);
 		
 		JPanel students = new JPanel();
 		tabbedPane.addTab("Students", null, students, null);
