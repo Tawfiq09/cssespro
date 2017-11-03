@@ -18,11 +18,12 @@ import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class AdminSemesterPaymentManupulationUI extends JFrame {
 
 	/**
-	 * This is for update and view semester payment details
+	 * This is for update and delete semester payment details
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -75,9 +76,11 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 	 * Create the frame.
 	 */
 	public AdminSemesterPaymentManupulationUI(SemesterPayment semesterPayment) {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 734, 560);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -256,13 +259,18 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 
 		// update button
 		JButton btnUpdate = new JButton("Update");
+		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnUpdate.setForeground(Color.WHITE);
+		btnUpdate.setBackground(Color.BLUE);
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String sid = textFieldStudentID.getText();
 				int year = Integer.parseInt(textFieldYear.getText());
 				int semester = Integer.parseInt(textFieldSemester.getText());
 				String status = (String) comboBoxStatus.getSelectedItem();
-				boolean result = SemesterPaymentHandler.upadte(sid, year, semester, status);
+
+				// call SemesterPaymentHandler update method
+				boolean result = SemesterPaymentHandler.update(sid, year, semester, status);
 				if (result) {
 					JOptionPane.showMessageDialog(null, "Successfully Updated");
 				} else {
@@ -270,17 +278,24 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 				}
 			}
 		});
-		btnUpdate.setBounds(333, 387, 116, 44);
+		btnUpdate.setBounds(419, 420, 116, 44);
 		contentPane.add(btnUpdate);
-		
+
+		// delete button
 		JButton btnDelete = new JButton("Delete");
+		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnDelete.setForeground(Color.WHITE);
+		btnDelete.setBackground(Color.RED);
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int dialogResult = JOptionPane.showConfirmDialog (null, "Do yo want to delete this record?","Warning",JOptionPane.YES_NO_OPTION);
-				if(dialogResult == JOptionPane.YES_OPTION){
+				int dialogResult = JOptionPane.showConfirmDialog(null, "Do yo want to delete this record?", "Warning",
+						JOptionPane.YES_NO_OPTION);
+				if (dialogResult == JOptionPane.YES_OPTION) {
 					String sid = textFieldStudentID.getText();
 					int year = Integer.parseInt(textFieldYear.getText());
 					int semester = Integer.parseInt(textFieldSemester.getText());
+
+					// call SemesterPaymentHandler delete method
 					boolean result = SemesterPaymentHandler.delete(sid, year, semester);
 					if (result) {
 						JOptionPane.showMessageDialog(null, "Successfully Delete");
@@ -290,7 +305,7 @@ public class AdminSemesterPaymentManupulationUI extends JFrame {
 				}
 			}
 		});
-		btnDelete.setBounds(500, 387, 116, 44);
+		btnDelete.setBounds(569, 420, 116, 44);
 		contentPane.add(btnDelete);
 	}
 }

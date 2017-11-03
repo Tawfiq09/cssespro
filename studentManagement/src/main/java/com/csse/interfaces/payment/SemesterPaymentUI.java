@@ -74,13 +74,22 @@ public class SemesterPaymentUI extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 750, 515);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		// set db connection to both Service and SemesterPaymentHandler classes
-		Service.setconnection();
-		SemesterPaymentHandler.setconnection();
+		try {
+			Service.setconnection();
+		} catch (ClassNotFoundException e1) {
+			JOptionPane.showMessageDialog(null, "Db connection error");
+		}
+		try {
+			SemesterPaymentHandler.setconnection();
+		} catch (ClassNotFoundException e2) {
+			JOptionPane.showMessageDialog(null, "Db connection error");
+		}
 		JLabel lblStudentId = new JLabel("Student ID");
 		lblStudentId.setBounds(24, 60, 86, 14);
 		contentPane.add(lblStudentId);
@@ -159,7 +168,11 @@ public class SemesterPaymentUI extends JFrame {
 					comboBoxSpecialication.removeAllItems();
 					String faculty = (String) comboBoxFaculty.getSelectedItem();
 					int year = Integer.parseInt((String) comboBoxstudentCurrentYear.getSelectedItem());
-					fillSpecialicationComboBox(comboBoxSpecialication, Service.fillSpecialication(faculty, year));
+					try {
+						fillSpecialicationComboBox(comboBoxSpecialication, Service.fillSpecialication(faculty, year));
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(null, "Db error");
+					}
 
 				}
 			}
@@ -184,7 +197,11 @@ public class SemesterPaymentUI extends JFrame {
 					comboBoxSpecialication.removeAllItems();
 					String faculty = (String) comboBoxFaculty.getSelectedItem();
 					int year = Integer.parseInt((String) comboBoxstudentCurrentYear.getSelectedItem());
-					fillSpecialicationComboBox(comboBoxSpecialication, Service.fillSpecialication(faculty, year));
+					try {
+						fillSpecialicationComboBox(comboBoxSpecialication, Service.fillSpecialication(faculty, year));
+					} catch (SQLException e) {
+						JOptionPane.showMessageDialog(null, "Db error");
+					}
 
 				}
 			}
@@ -192,7 +209,11 @@ public class SemesterPaymentUI extends JFrame {
 		comboBoxFaculty.setModel(new DefaultComboBoxModel<String>(new String[] { "select" }));
 		comboBoxFaculty.setBounds(509, 51, 135, 20);
 		contentPane.add(comboBoxFaculty);
-		fillFacultyComboBox(comboBoxFaculty, Service.fillFaculty());
+		try {
+			fillFacultyComboBox(comboBoxFaculty, Service.fillFaculty());
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, "Db error");
+		}
 
 		// Specialization
 		comboBoxSpecialication = new JComboBox<String>();
@@ -200,10 +221,14 @@ public class SemesterPaymentUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!comboBoxFaculty.getSelectedItem().equals("select")
 						&& !comboBoxstudentCurrentYear.getSelectedItem().equals("select")) {
-					fillCourseFee(textFieldCourseFee,
-							Service.fillSCourseFee((String) comboBoxFaculty.getSelectedItem(),
-									Integer.parseInt((String) comboBoxstudentCurrentYear.getSelectedItem()),
-									(String) comboBoxSpecialication.getSelectedItem()));
+					try {
+						fillCourseFee(textFieldCourseFee,
+								Service.fillSCourseFee((String) comboBoxFaculty.getSelectedItem(),
+										Integer.parseInt((String) comboBoxstudentCurrentYear.getSelectedItem()),
+										(String) comboBoxSpecialication.getSelectedItem()));
+					} catch (NumberFormatException | SQLException e) {
+						JOptionPane.showMessageDialog(null, "Db error");
+					}
 				}
 			}
 		});
@@ -257,6 +282,9 @@ public class SemesterPaymentUI extends JFrame {
 
 		// submit button
 		JButton btnSubmit = new JButton("SUBMIT");
+		btnSubmit.setForeground(Color.WHITE);
+		btnSubmit.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnSubmit.setBackground(Color.BLUE);
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -279,6 +307,7 @@ public class SemesterPaymentUI extends JFrame {
 						semeterpayment.setDate(dateChooserDeposit.getDate());
 						semeterpayment.setStatus("pending");
 						if (!SemesterPaymentHandler.checkRecordAlreadyExist(semeterpayment)) {
+							// add payment
 							boolean result = SemesterPaymentHandler.add(semeterpayment);
 							if (result) {
 								JOptionPane.showMessageDialog(null, "successfully Recorded");
@@ -390,26 +419,24 @@ public class SemesterPaymentUI extends JFrame {
 				jComboBox.addItem(resultSet.getString("faculty_name"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Db error");
 		}
 
 	}
 
-	//method to fill specialization comboBox
+	// method to fill specialization comboBox
 	public void fillSpecialicationComboBox(JComboBox<String> jComboBox, ResultSet resultSet) {
 		try {
 			while (resultSet.next()) {
 				jComboBox.addItem(resultSet.getString("specialization"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Db error");
 		}
 
 	}
 
-	//method to fill course fee
+	// method to fill course fee
 	public void fillCourseFee(JTextField textField, ResultSet resultSet) {
 
 		try {
@@ -417,12 +444,11 @@ public class SemesterPaymentUI extends JFrame {
 				textField.setText(String.valueOf(resultSet.getDouble("course_fee")));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Db error");
 		}
 	}
 
-	//check all components
+	// check all components
 	public boolean isempty() {
 		boolean textBoxes = checkTextBoxes();
 		boolean comboBoxes = checkComboBoxes();
@@ -434,7 +460,7 @@ public class SemesterPaymentUI extends JFrame {
 		return true;
 	}
 
-	//check textFields
+	// check textFields
 	public boolean checkTextBoxes() {
 
 		if (!textFieldStudentID.getText().trim().isEmpty() && !textFieldStudentName.getText().trim().isEmpty()
@@ -445,7 +471,7 @@ public class SemesterPaymentUI extends JFrame {
 		return false;
 	}
 
-	//check comboBoxes
+	// check comboBoxes
 	public boolean checkComboBoxes() {
 		if (!comboBoxstudentCurrentYear.getSelectedItem().equals("select")
 				&& !comboBoxSemester.getSelectedItem().equals("select")
@@ -457,7 +483,7 @@ public class SemesterPaymentUI extends JFrame {
 		return false;
 	}
 
-	//check dateChoosers
+	// check dateChoosers
 	public boolean checkDateChoosers() {
 
 		Date RegisterdDate = dateChooserRegisterdDate.getDate();
@@ -469,7 +495,7 @@ public class SemesterPaymentUI extends JFrame {
 		return false;
 	}
 
-	//check email
+	// check email
 	public boolean validateEmail(JTextField textField) {
 		Pattern email = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 		Matcher matcher = email.matcher(textField.getText());

@@ -38,7 +38,7 @@ public class ExamPaymentTestCase {
 	ResultSet resultSet;
 
 	@BeforeTest
-	public void beforeTest() {
+	public void beforeTest() throws ClassNotFoundException {
 		ExamPaymentHandler.setconnection();
 		examPayment.setStudent_id(student_id);
 		examPayment.setStudent_name(student_name);
@@ -65,7 +65,7 @@ public class ExamPaymentTestCase {
 
 	// test for student perspective search
 	@Test(groups = "payment.exam", dependsOnMethods = { "addPayment" })
-	public void studentSearch() {
+	public void studentSearch() throws SQLException {
 		resultSet = ExamPaymentHandler.studentSearch(student_id);
 		try {
 			while (resultSet.next()) {
@@ -79,7 +79,7 @@ public class ExamPaymentTestCase {
 
 	// test for admin perspective search student wise
 	@Test(groups = "payment.exam", dependsOnMethods = { "addPayment" })
-	public void adminStudentSearch() {
+	public void adminStudentSearch() throws SQLException {
 		resultSet = ExamPaymentHandler.searchStudent(student_id, current_year);
 		try {
 			while (resultSet.next()) {
@@ -94,7 +94,7 @@ public class ExamPaymentTestCase {
 	// test for update exam payment
 	@Test(groups = "payment.exam", dependsOnMethods = { "addPayment" })
 	public void update() {
-		assertTrue(ExamPaymentHandler.upadte(student_id, sqlRegdate, examination, "verified"));
+		assertTrue(ExamPaymentHandler.update(student_id, sqlRegdate, examination, "verified"));
 	}
 
 	// test for delete exam payment recode

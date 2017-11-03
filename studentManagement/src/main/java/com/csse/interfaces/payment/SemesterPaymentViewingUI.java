@@ -12,13 +12,17 @@ import com.csse.payment.semester_payment.SemesterPaymentHandler;
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.Font;
 
 public class SemesterPaymentViewingUI extends JFrame {
 
@@ -52,17 +56,27 @@ public class SemesterPaymentViewingUI extends JFrame {
 	 * Create the frame.
 	 */
 	public SemesterPaymentViewingUI() {
+		setResizable(false);
 		setTitle("View Payment Deatils");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 879, 505);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		// set db connection to both Service and SemesterPaymentHandler classes
-		Service.setconnection();
-		SemesterPaymentHandler.setconnection();
+		try {
+			Service.setconnection();
+		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "Db connection error");
+		}
+		try {
+			SemesterPaymentHandler.setconnection();
+		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "Db connection error");
+		}
 
 		JLabel lblStudentId = new JLabel("Student ID");
 		lblStudentId.setBounds(47, 45, 80, 14);
@@ -93,10 +107,18 @@ public class SemesterPaymentViewingUI extends JFrame {
 
 		// search button
 		JButton btnSearch = new JButton("Search");
+		btnSearch.setForeground(Color.WHITE);
+		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnSearch.setBackground(Color.BLUE);
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				resultSet = SemesterPaymentHandler.studentSearch(textFieldStudentID.getText());
-				table.setModel(DbUtils.resultSetToTableModel(resultSet));
+				try {
+					resultSet = SemesterPaymentHandler.studentSearch(textFieldStudentID.getText());
+					table.setModel(DbUtils.resultSetToTableModel(resultSet));
+				} catch (SQLException e) {
+					JOptionPane.showMessageDialog(null, "Db error");
+				}
+
 			}
 		});
 		btnSearch.setBounds(482, 41, 89, 23);

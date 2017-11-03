@@ -22,11 +22,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.Font;
 
 public class AdminExamPaymentManupulationUI extends JFrame {
 
 	/**
-	 * 
+	 * this UI for update and delete Exam payment details
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -66,14 +68,21 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 	 * Create the frame.
 	 */
 	public AdminExamPaymentManupulationUI(ExamPayment examPayment) {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 773, 517);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		Service.setconnection();
+		// set db connection for service class
+		try {
+			Service.setconnection();
+		} catch (ClassNotFoundException e1) {
+			JOptionPane.showMessageDialog(null, "Db connection error");
+		}
 
 		JLabel label = new JLabel("Student ID");
 		label.setBounds(43, 30, 82, 14);
@@ -245,13 +254,18 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 
 		// update button
 		JButton btnUpdate = new JButton("Update");
+		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnUpdate.setForeground(Color.WHITE);
+		btnUpdate.setBackground(Color.BLUE);
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				try {
 					Date regdate = df.parse(textFieldRegDate.getText());
 					java.sql.Date sqlregisteredDate = new java.sql.Date(regdate.getTime());
-					boolean result = ExamPaymentHandler.upadte(textFieldStudentID.getText(), sqlregisteredDate,
+
+					// call ExamPaymentHandler update method
+					boolean result = ExamPaymentHandler.update(textFieldStudentID.getText(), sqlregisteredDate,
 							textFieldExamination.getText(), (String) comboBox.getSelectedItem());
 					if (result) {
 						JOptionPane.showMessageDialog(null, "Successfully Updated");
@@ -266,7 +280,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 
 			}
 		});
-		btnUpdate.setBounds(427, 283, 89, 23);
+		btnUpdate.setBounds(433, 400, 89, 44);
 		contentPane.add(btnUpdate);
 
 		JLabel lblSemester = new JLabel("Semester");
@@ -283,6 +297,9 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 
 		// delete button
 		JButton btnDelete = new JButton("Delete");
+		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnDelete.setForeground(Color.WHITE);
+		btnDelete.setBackground(Color.RED);
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int dialogResult = JOptionPane.showConfirmDialog(null, "Do yo want to delete this record?", "Warning",
@@ -292,6 +309,8 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 					int year = Integer.parseInt(textFieldYear.getText());
 					int semester = Integer.parseInt(textFieldsemester.getText());
 					String examination = textFieldExamination.getText();
+
+					// call ExamPaymentHandler delete method
 					boolean result = ExamPaymentHandler.delete(sid, year, semester, examination);
 					if (result) {
 						JOptionPane.showMessageDialog(null, "Successfully Delete");
@@ -301,7 +320,7 @@ public class AdminExamPaymentManupulationUI extends JFrame {
 				}
 			}
 		});
-		btnDelete.setBounds(551, 283, 89, 23);
+		btnDelete.setBounds(564, 400, 89, 44);
 		contentPane.add(btnDelete);
 	}
 }

@@ -9,6 +9,7 @@ import javax.swing.table.TableModel;
 
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import com.csse.payment.Service;
@@ -66,16 +67,26 @@ public class AdminExamPaymentUI extends JFrame {
 	 * Create the frame.
 	 */
 	public AdminExamPaymentUI() {
+		setTitle("Adminstrator Exam Payment");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1044, 645);
+		setBounds(100, 100, 1224, 645);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		// set db connection for both Service and ExamPaymentHandler
-		Service.setconnection();
-		ExamPaymentHandler.setconnection();
+		try {
+			Service.setconnection();
+		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "Db connection error");
+		}
+		try {
+			ExamPaymentHandler.setconnection();
+		} catch (ClassNotFoundException e1) {
+			JOptionPane.showMessageDialog(null, "Db connection error");
+		}
 
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 5, 305, 204);
@@ -109,12 +120,21 @@ public class AdminExamPaymentUI extends JFrame {
 
 		// panel 1 search button
 		JButton btnSearch = new JButton("Search");
+		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnSearch.setForeground(Color.WHITE);
+		btnSearch.setBackground(Color.BLUE);
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!textFieldStudentId.getText().trim().isEmpty()) {
 
-					resultSet = ExamPaymentHandler.searchStudent(textFieldStudentId.getText(), yearChooser.getValue());
-					table.setModel(DbUtils.resultSetToTableModel(resultSet));
+					try {
+						resultSet = ExamPaymentHandler.searchStudent(textFieldStudentId.getText(),
+								yearChooser.getValue());
+						table.setModel(DbUtils.resultSetToTableModel(resultSet));
+					} catch (SQLException e) {
+						JOptionPane.showMessageDialog(null, "Db error");
+					}
+
 				}
 			}
 		});
@@ -122,7 +142,7 @@ public class AdminExamPaymentUI extends JFrame {
 		panel.add(btnSearch);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(643, 5, 375, 204);
+		panel_1.setBounds(823, 5, 375, 204);
 		panel_1.setBackground(Color.WHITE);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
@@ -154,15 +174,23 @@ public class AdminExamPaymentUI extends JFrame {
 		comboBoxfaculty.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!comboBoxfaculty.getSelectedItem().equals("select")) {
-					fillExaminationComboBox(comboBoxExamination, Service.getExaminationDetails(yearChooser_1.getValue(),
-							(String) comboBoxfaculty.getSelectedItem()));
+					try {
+						fillExaminationComboBox(comboBoxExamination, Service.getExaminationDetails(
+								yearChooser_1.getValue(), (String) comboBoxfaculty.getSelectedItem()));
+					} catch (SQLException e) {
+						JOptionPane.showMessageDialog(null, "Db error");
+					}
 				}
 			}
 		});
 		comboBoxfaculty.setModel(new DefaultComboBoxModel<String>(new String[] { "select" }));
 		comboBoxfaculty.setBounds(102, 84, 153, 20);
 		panel_1.add(comboBoxfaculty);
-		fillFacultyComboBox(comboBoxfaculty, Service.fillFaculty());
+		try {
+			fillFacultyComboBox(comboBoxfaculty, Service.fillFaculty());
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Db error");
+		}
 
 		// examination
 		comboBoxExamination = new JComboBox<String>();
@@ -172,13 +200,21 @@ public class AdminExamPaymentUI extends JFrame {
 
 		// panel 2 search button
 		JButton btnSearchExam = new JButton("Search");
+		btnSearchExam.setForeground(Color.WHITE);
+		btnSearchExam.setBackground(Color.BLUE);
+		btnSearchExam.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnSearchExam.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!comboBoxfaculty.getSelectedItem().equals("select")
 						&& !comboBoxExamination.getSelectedItem().equals("select")) {
-					resultSet = ExamPaymentHandler.search((String) comboBoxExamination.getSelectedItem(),
-							yearChooser_1.getValue());
-					table.setModel(DbUtils.resultSetToTableModel(resultSet));
+					try {
+						resultSet = ExamPaymentHandler.search((String) comboBoxExamination.getSelectedItem(),
+								yearChooser_1.getValue());
+						table.setModel(DbUtils.resultSetToTableModel(resultSet));
+					} catch (SQLException e) {
+						JOptionPane.showMessageDialog(null, "Db error");
+					}
+
 				}
 			}
 		});
@@ -186,7 +222,7 @@ public class AdminExamPaymentUI extends JFrame {
 		panel_1.add(btnSearchExam);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 232, 1008, 363);
+		scrollPane.setBounds(10, 232, 1188, 363);
 		contentPane.add(scrollPane);
 
 		// table
@@ -228,8 +264,7 @@ public class AdminExamPaymentUI extends JFrame {
 				jComboBox.addItem(resultSet.getString("faculty_name"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Db error");
 		}
 
 	}
@@ -241,8 +276,7 @@ public class AdminExamPaymentUI extends JFrame {
 				jComboBox.addItem(resultSet.getString("exam_Name"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Db error");
 		}
 
 	}

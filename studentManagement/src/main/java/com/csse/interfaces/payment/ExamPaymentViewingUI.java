@@ -11,13 +11,17 @@ import com.csse.payment.exam_payment.ExamPaymentHandler;
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.Font;
 
 public class ExamPaymentViewingUI extends JFrame {
 
@@ -51,15 +55,21 @@ public class ExamPaymentViewingUI extends JFrame {
 	 * Create the frame.
 	 */
 	public ExamPaymentViewingUI() {
+		setResizable(false);
 		setTitle("view payment details");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 758, 493);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		ExamPaymentHandler.setconnection();
+		try {
+			ExamPaymentHandler.setconnection();
+		} catch (ClassNotFoundException e2) {
+			JOptionPane.showMessageDialog(null, "Db connection error");
+		}
 
 		JLabel lblStudentId = new JLabel("Student ID");
 		lblStudentId.setBounds(30, 30, 82, 14);
@@ -91,11 +101,19 @@ public class ExamPaymentViewingUI extends JFrame {
 
 		//search button
 		JButton btnSearch = new JButton("Search");
+		btnSearch.setForeground(Color.WHITE);
+		btnSearch.setBackground(Color.BLUE);
+		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!textFieldStudentId.getText().trim().isEmpty()) {
-					resultSet = ExamPaymentHandler.studentSearch(textFieldStudentId.getText());
-					table.setModel(DbUtils.resultSetToTableModel(resultSet));
+					try {
+						resultSet = ExamPaymentHandler.studentSearch(textFieldStudentId.getText());
+						table.setModel(DbUtils.resultSetToTableModel(resultSet));
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(null, "Db error");
+					}
+					
 				}
 			}
 		});

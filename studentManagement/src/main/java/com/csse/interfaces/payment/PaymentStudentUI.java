@@ -50,6 +50,7 @@ public class PaymentStudentUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		// button for Semester Registration Payment
 		JButton btnSemesterRegistrationPayment = new JButton("Semester Registration Payment");
 		btnSemesterRegistrationPayment.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnSemesterRegistrationPayment.setForeground(Color.WHITE);
@@ -58,12 +59,13 @@ public class PaymentStudentUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				SemesterPaymentUI semesterPaymentUI = new SemesterPaymentUI();
 				semesterPaymentUI.setVisible(true);
-				
+
 			}
 		});
 		btnSemesterRegistrationPayment.setBounds(39, 36, 237, 70);
 		contentPane.add(btnSemesterRegistrationPayment);
 
+		// button for Exam Payment Registration
 		JButton btnExamRegistrationPayment = new JButton("Exam Payment Registration");
 		btnExamRegistrationPayment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -77,6 +79,7 @@ public class PaymentStudentUI extends JFrame {
 		btnExamRegistrationPayment.setBounds(338, 36, 237, 70);
 		contentPane.add(btnExamRegistrationPayment);
 
+		// button for View Semester Payment Details
 		JButton btnViewSemesterPayment = new JButton("View Semester Payment Details");
 		btnViewSemesterPayment.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnViewSemesterPayment.setForeground(Color.WHITE);
@@ -90,6 +93,7 @@ public class PaymentStudentUI extends JFrame {
 		btnViewSemesterPayment.setBounds(39, 166, 237, 70);
 		contentPane.add(btnViewSemesterPayment);
 
+		// button for View Exam payment Deatils
 		JButton btnViewExamPayment = new JButton("View Exam payment Deatils");
 		btnViewExamPayment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -102,7 +106,8 @@ public class PaymentStudentUI extends JFrame {
 		btnViewExamPayment.setBackground(SystemColor.textHighlight);
 		btnViewExamPayment.setBounds(338, 166, 237, 70);
 		contentPane.add(btnViewExamPayment);
-		
+
+		// button Admin
 		JButton btnAdmin = new JButton("Admin");
 		btnAdmin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
