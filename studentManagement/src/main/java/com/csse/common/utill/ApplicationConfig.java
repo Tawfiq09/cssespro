@@ -12,4 +12,7 @@ public class ApplicationConfig {
 	public static String DB_USERNAME = "db.username";
 	public static String DB_PASSWORD = "db.password";
 	public static String DB_DRIVER = "db.driver";
+	public static String PAYMENT_REPORT_FILE ="payment.reports.filename";
+
+
 }
