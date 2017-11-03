@@ -7,16 +7,16 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.csse.payment.Service;
-import com.csse.payment.semester_payment.SemesterPaymentHandler;
+import com.csse.payment.exam_payment.ExamPaymentHandler;
 
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,15 +25,15 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.HeadlessException;
 
-public class SemesterPaymentViewingUI extends JFrame {
+public class ExamPaymentViewingUI extends JFrame {
 
 	/**
-	 * UI for search payment details for student
+	 * This UI for student to view there exam payments
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textFieldStudentID;
-	private JTextField textFieldNIC;
+	private JTextField textFieldStudentId;
+	private JTextField textFieldNic;
 	private JTable table;
 	private ResultSet resultSet;
 
@@ -44,7 +44,7 @@ public class SemesterPaymentViewingUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SemesterPaymentViewingUI frame = new SemesterPaymentViewingUI();
+					ExamPaymentViewingUI frame = new ExamPaymentViewingUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,86 +56,80 @@ public class SemesterPaymentViewingUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SemesterPaymentViewingUI() {
+	public ExamPaymentViewingUI() {
 		setResizable(false);
-		setTitle("View Payment Deatils");
+		setTitle("view payment details");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 879, 505);
+		setBounds(100, 100, 758, 493);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		// set db connection to both Service and SemesterPaymentHandler classes
 		try {
-			Service.setconnection();
-		} catch (ClassNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "Db connection error");
-		}
-		try {
-			SemesterPaymentHandler.setconnection();
-		} catch (ClassNotFoundException e) {
+			ExamPaymentHandler.setconnection();
+		} catch (ClassNotFoundException e2) {
 			JOptionPane.showMessageDialog(null, "Db connection error");
 		}
 
 		JLabel lblStudentId = new JLabel("Student ID");
-		lblStudentId.setBounds(47, 45, 80, 14);
+		lblStudentId.setBounds(30, 30, 82, 14);
 		contentPane.add(lblStudentId);
 
 		// student id
-		textFieldStudentID = new JTextField();
-		textFieldStudentID.setBounds(137, 42, 86, 20);
-		contentPane.add(textFieldStudentID);
-		textFieldStudentID.setColumns(10);
+		textFieldStudentId = new JTextField();
+		textFieldStudentId.setBounds(114, 27, 135, 20);
+		contentPane.add(textFieldStudentId);
+		textFieldStudentId.setColumns(10);
 
-		JLabel lblNic = new JLabel("NIC");
-		lblNic.setBounds(288, 45, 46, 14);
+		JLabel lblNic = new JLabel("Nic");
+		lblNic.setBounds(308, 30, 46, 14);
 		contentPane.add(lblNic);
 
-		// student nic
-		textFieldNIC = new JTextField();
-		textFieldNIC.setBounds(344, 42, 86, 20);
-		contentPane.add(textFieldNIC);
-		textFieldNIC.setColumns(10);
+		// nic
+		textFieldNic = new JTextField();
+		textFieldNic.setBounds(364, 27, 135, 20);
+		contentPane.add(textFieldNic);
+		textFieldNic.setColumns(10);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(50, 121, 759, 291);
+		scrollPane.setBounds(10, 98, 722, 295);
 		contentPane.add(scrollPane);
 
+		// table
 		table = new JTable();
 		scrollPane.setViewportView(table);
 
 		// search button
 		JButton btnSearch = new JButton("Search");
 		btnSearch.setForeground(Color.WHITE);
-		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnSearch.setBackground(Color.BLUE);
+		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (!textFieldStudentID.getText().trim().isEmpty() && !textFieldNIC.getText().trim().isEmpty()) {
+			public void actionPerformed(ActionEvent e) {
+				if (!textFieldStudentId.getText().trim().isEmpty() && !textFieldNic.getText().isEmpty()) {
 					try {
-						if (Service.verifyStudent(textFieldStudentID.getText(), textFieldNIC.getText())) {
+						if (Service.verifyStudent(textFieldStudentId.getText(), textFieldNic.getText())) {
 							try {
-								resultSet = SemesterPaymentHandler.studentSearch(textFieldStudentID.getText());
+								resultSet = ExamPaymentHandler.studentSearch(textFieldStudentId.getText());
 								table.setModel(DbUtils.resultSetToTableModel(resultSet));
-							} catch (SQLException e) {
+							} catch (SQLException e1) {
 								JOptionPane.showMessageDialog(null, "Db error");
 							}
 						} else {
 							JOptionPane.showMessageDialog(null, "please enter valid student id and NIC");
 						}
-					} catch (HeadlessException | SQLException e) {
+					} catch (HeadlessException | SQLException e1) {
 						JOptionPane.showMessageDialog(null, "Db error");
 					}
+
 				} else {
 					JOptionPane.showMessageDialog(null, "please enter student id and NIC");
 				}
-
 			}
 		});
-		btnSearch.setBounds(482, 41, 89, 23);
+		btnSearch.setBounds(575, 26, 101, 23);
 		contentPane.add(btnSearch);
-
 	}
 }
