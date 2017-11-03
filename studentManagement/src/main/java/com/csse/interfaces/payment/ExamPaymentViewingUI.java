@@ -67,6 +67,12 @@ public class ExamPaymentViewingUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		// set db connection for both Service and ExamPaymentHandler
+		try {
+			Service.setconnection();
+		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "Db connection error");
+		}
 		try {
 			ExamPaymentHandler.setconnection();
 		} catch (ClassNotFoundException e2) {
