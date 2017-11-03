@@ -14,6 +14,10 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JTextField;
 
+import com.csse.application.starter.ApplictionHandler;
+import com.csse.common.utill.ApplicationConfig;
+import com.csse.common.utill.Filehandler;
+import com.csse.payment.ReportGenerator;
 import com.csse.payment.Service;
 import com.csse.payment.semester_payment.SemesterPayment;
 import com.csse.payment.semester_payment.SemesterPaymentHandler;
@@ -30,9 +34,12 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Properties;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class AdminSemesterPaymentUI extends JFrame {
 
@@ -71,10 +78,21 @@ public class AdminSemesterPaymentUI extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		//set db connection for both Service and SemesterPaymentHandler classes
+
+		// set db connection for both Service and SemesterPaymentHandler classes
 		Service.setconnection();
 		SemesterPaymentHandler.setconnection();
+		ReportGenerator.setconnection();
+
+		Properties payment;
+		try {
+			payment = Filehandler.loadPropertiesFromFile(
+					ApplictionHandler.CONFIGS.getProperty(ApplicationConfig.PAYMENT_REPORT_FILE));
+			ReportGenerator.loadPropertyFile(payment);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		JPanel panel1 = new JPanel();
 		panel1.setBounds(36, 11, 345, 233);
@@ -99,18 +117,18 @@ public class AdminSemesterPaymentUI extends JFrame {
 		lblSemester.setBounds(10, 130, 74, 14);
 		panel1.add(lblSemester);
 
-		//student id
+		// student id
 		textFieldStudentID = new JTextField();
 		textFieldStudentID.setBounds(101, 47, 152, 20);
 		panel1.add(textFieldStudentID);
 		textFieldStudentID.setColumns(10);
 
-		//year panel 1
+		// year panel 1
 		JYearChooser yearChooser = new JYearChooser();
 		yearChooser.setBounds(101, 87, 47, 20);
 		panel1.add(yearChooser);
 
-		//semester
+		// semester
 		JComboBox<String> comboBoxSemester = new JComboBox<String>();
 		comboBoxSemester.setModel(new DefaultComboBoxModel<String>(new String[] { "1", "2" }));
 		comboBoxSemester.setBounds(101, 127, 152, 20);
@@ -120,7 +138,7 @@ public class AdminSemesterPaymentUI extends JFrame {
 		scrollPane.setBounds(36, 266, 1291, 293);
 		contentPane.add(scrollPane);
 
-		//table
+		// table
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -143,16 +161,15 @@ public class AdminSemesterPaymentUI extends JFrame {
 				semesterPayment.setBranchName((String) model.getValueAt(i, 11));
 				semesterPayment.setDate((Date) model.getValueAt(i, 12));
 				semesterPayment.setStatus((String) model.getValueAt(i, 13));
-				
-				
+
 				AdminSemesterPaymentManupulationUI frame = new AdminSemesterPaymentManupulationUI(semesterPayment);
 				frame.setVisible(true);
-				
+
 			}
 		});
 		scrollPane.setViewportView(table);
 
-		//panel 1 search button
+		// panel 1 search button
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -163,8 +180,7 @@ public class AdminSemesterPaymentUI extends JFrame {
 					int semester = Integer.parseInt((String) comboBoxSemester.getSelectedItem());
 					table.setModel(DbUtils
 							.resultSetToTableModel(SemesterPaymentHandler.adminSearchStudentWise(sid, year, semester)));
-				}
-				else {
+				} else {
 					JOptionPane.showMessageDialog(null, "Please enter Student Id");
 				}
 
@@ -173,8 +189,19 @@ public class AdminSemesterPaymentUI extends JFrame {
 		btnSearch.setBounds(54, 187, 89, 23);
 		panel1.add(btnSearch);
 
-		//panel 1 generate report button
+		// panel 1 generate report button
 		JButton btnGenerateReport = new JButton("Generate Report");
+		btnGenerateReport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (!textFieldStudentID.getText().trim().isEmpty()) {
+					HashMap<String, Object> parameters = new HashMap<>();
+					parameters.put("student_id", textFieldStudentID.getText());
+					parameters.put("year", String.valueOf(yearChooser.getValue()));
+					parameters.put("semester", comboBoxSemester.getSelectedItem().toString());
+					ReportGenerator.generateStdSemPayReport(parameters);
+				}
+			}
+		});
 		btnGenerateReport.setBounds(172, 187, 143, 23);
 		panel1.add(btnGenerateReport);
 
@@ -201,30 +228,30 @@ public class AdminSemesterPaymentUI extends JFrame {
 		lblSemesterF.setBounds(10, 162, 82, 14);
 		panel2.add(lblSemesterF);
 
-		//faculty
+		// faculty
 		JComboBox<String> comboBoxFaculty = new JComboBox<String>();
 		comboBoxFaculty.setBounds(123, 44, 152, 20);
 		panel2.add(comboBoxFaculty);
 		fillFacultyComboBox(comboBoxFaculty, Service.fillFaculty());
 
-		//semester panel 2
+		// semester panel 2
 		JComboBox<String> comboBoxSemesterF = new JComboBox<String>();
 		comboBoxSemesterF.setModel(new DefaultComboBoxModel<String>(new String[] { "1", "2" }));
 		comboBoxSemesterF.setBounds(123, 159, 152, 20);
 		panel2.add(comboBoxSemesterF);
 
-		//year panel 2
+		// year panel 2
 		JYearChooser yearChooser_1 = new JYearChooser();
 		yearChooser_1.setBounds(123, 79, 47, 20);
 		panel2.add(yearChooser_1);
-		
-		//year of university or current year of university
+
+		// year of university or current year of university
 		JComboBox<String> comboBoxUnYear = new JComboBox<String>();
-		comboBoxUnYear.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3", "4"}));
+		comboBoxUnYear.setModel(new DefaultComboBoxModel<String>(new String[] { "1", "2", "3", "4" }));
 		comboBoxUnYear.setBounds(123, 119, 152, 20);
 		panel2.add(comboBoxUnYear);
-		
-		//panel 2 search button
+
+		// panel 2 search button
 		JButton btnSearchF = new JButton("Search");
 		btnSearchF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -232,24 +259,31 @@ public class AdminSemesterPaymentUI extends JFrame {
 				int year = yearChooser_1.getValue();
 				int semester = Integer.parseInt((String) comboBoxSemesterF.getSelectedItem());
 				int current_year = Integer.parseInt((String) comboBoxUnYear.getSelectedItem());
-				table.setModel(DbUtils.resultSetToTableModel(SemesterPaymentHandler.adminSearchFacultytWise(faculty, year, semester,current_year)));
+				table.setModel(DbUtils.resultSetToTableModel(
+						SemesterPaymentHandler.adminSearchFacultytWise(faculty, year, semester, current_year)));
 			}
 		});
 		btnSearchF.setBounds(32, 199, 89, 23);
 		panel2.add(btnSearchF);
 
-		//panel 2 generate report button
+		// panel 2 generate report button
 		JButton btnGenerateReportF = new JButton("Generate Report");
+		btnGenerateReportF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HashMap<String, Object> parameters = new HashMap<>();
+				parameters.put("year", String.valueOf(yearChooser_1.getValue()));
+				parameters.put("faculty", comboBoxFaculty.getSelectedItem());
+				parameters.put("curruent_year", comboBoxUnYear.getSelectedItem().toString());
+				parameters.put("semester", comboBoxSemesterF.getSelectedItem().toString());
+				ReportGenerator.generateFacSemPayReport(parameters);
+			}
+		});
 		btnGenerateReportF.setBounds(152, 199, 140, 23);
 		panel2.add(btnGenerateReportF);
-		
+
 		JLabel lblUniversityYear = new JLabel("Year of University");
 		lblUniversityYear.setBounds(10, 122, 103, 14);
 		panel2.add(lblUniversityYear);
-		
-		
-		
-		
 
 	}
 
