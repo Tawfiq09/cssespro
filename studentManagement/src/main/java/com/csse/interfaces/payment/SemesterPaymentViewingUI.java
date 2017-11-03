@@ -85,7 +85,7 @@ public class SemesterPaymentViewingUI extends JFrame {
 
 		// student id
 		textFieldStudentID = new JTextField();
-		textFieldStudentID.setBounds(137, 42, 86, 20);
+		textFieldStudentID.setBounds(137, 42, 125, 20);
 		contentPane.add(textFieldStudentID);
 		textFieldStudentID.setColumns(10);
 
@@ -95,7 +95,7 @@ public class SemesterPaymentViewingUI extends JFrame {
 
 		// student nic
 		textFieldNIC = new JTextField();
-		textFieldNIC.setBounds(344, 42, 86, 20);
+		textFieldNIC.setBounds(344, 42, 110, 20);
 		contentPane.add(textFieldNIC);
 		textFieldNIC.setColumns(10);
 
@@ -134,7 +134,7 @@ public class SemesterPaymentViewingUI extends JFrame {
 
 			}
 		});
-		btnSearch.setBounds(482, 41, 89, 23);
+		btnSearch.setBounds(508, 41, 89, 23);
 		contentPane.add(btnSearch);
 
 	}
