@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.border.LineBorder;
 import javax.swing.JTabbedPane;
 import javax.swing.JScrollPane;
@@ -33,6 +34,8 @@ import java.sql.ResultSet;
 import java.awt.event.ActionEvent;
 
 import net.proteanit.sql.DbUtils;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AddCourse extends JFrame {
 
@@ -303,6 +306,35 @@ public class AddCourse extends JFrame {
 		panel_2.add(scrollPane_1);
 		
 		table_1 = new JTable();
+		table_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				int i = table_1.getSelectedRow();
+				TableModel model = table_1.getModel();
+				addCourse addcourse = new addCourse();
+				
+				addcourse.setCourse_code((String) model.getValueAt(i, 0));
+				
+				examPayment.setStudent_id((String) model.getValueAt(i, 0));
+				examPayment.setStudent_name((String) model.getValueAt(i, 1));
+				examPayment.setStudent_email((String) model.getValueAt(i, 2));
+				examPayment.setYear((int) model.getValueAt(i, 3));
+				examPayment.setFaculty((String) model.getValueAt(i, 4));
+				examPayment.setCurrent_year((int) model.getValueAt(i, 5));
+				examPayment.setSpecialization((String) model.getValueAt(i, 6));
+				examPayment.setSemester((int) model.getValueAt(i, 7));
+				examPayment.setExamination((String) model.getValueAt(i, 8));
+				examPayment.setRegistered_date((Date) model.getValueAt(i, 9));
+				examPayment.setExam_fee((double) model.getValueAt(i, 10));
+				examPayment.setBank((String) model.getValueAt(i, 11));
+				examPayment.setBranch((String) model.getValueAt(i, 12));
+				examPayment.setDeposit_date((Date) model.getValueAt(i, 13));
+				examPayment.setStatus((String) model.getValueAt(i, 14));
+				AdminExamPaymentManupulationUI frame = new AdminExamPaymentManupulationUI(examPayment);
+				frame.setVisible(true);
+			}
+		});
 		scrollPane_1.setViewportView(table_1);
 	}
 	
