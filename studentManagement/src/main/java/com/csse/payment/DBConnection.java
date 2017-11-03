@@ -11,7 +11,7 @@ public class DBConnection {
 
 		if(connection == null) {
 		String driver = "com.mysql.jdbc.Driver";
-		String url = "jdbc:mysql://localhost:3306/cssemyoriginal";
+		String url = "jdbc:mysql://localhost:3306/studentmanagement";
 		String userName = "root";
 		String password = "sagarox";
 		Class.forName(driver);
