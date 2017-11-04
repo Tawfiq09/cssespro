@@ -30,12 +30,12 @@ public class MainInt {
 			public void run() {
 				try {
 					ApplictionHandler.start();
-					/*MainInt window = new MainInt();
-					window.frame.setVisible(true);*/
-					
-					StudentRegistrationUI window = new StudentRegistrationUI();
-					/*MainInt window = new MainInt();*/
+					MainInt window = new MainInt();
 					window.frame.setVisible(true);
+					
+//					StudentRegistrationUI window = new StudentRegistrationUI();
+//					/*MainInt window = new MainInt();*/
+//					window.frame.setVisible(true);
 
 				} catch (Exception e) {
 					e.printStackTrace();
