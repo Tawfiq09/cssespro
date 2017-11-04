@@ -87,7 +87,34 @@ public class addCourseHandler {
 
 		return false;
 	}
+	
+	//add course schedule
+	
+	/*public static boolean add2(courseSchedule cs) {
+		
+		 String course_code = cs.getCourse_code();
+		 String course_name = cs.getCourse_name();
+		 Date from_date = cs.getFrom_date();
+		 Date to_date = cs.getTo_date();
 
+		java.sql.Date sqlfromdate = new java.sql.Date(from_date.getTime());
+		java.sql.Date sqltodate = new java.sql.Date(to_date.getTime());
+
+		String query = "insert into courses values('" + course_code + "','" + course_name + "','" + no_of_credits
+				+ "','" + faculty + "','" + graduate + "','" + year + "','" + sub_stream
+				+ "','" + lecture_in_charge + "','" + sqlfromdate + "','" + sqltodate + "')";
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+*/
 	// search by course code 
 	public static ResultSet courseSearch(String course_code) {
 

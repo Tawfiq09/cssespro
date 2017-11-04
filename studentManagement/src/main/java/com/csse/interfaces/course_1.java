@@ -14,19 +14,34 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 import java.awt.Font;
+
+import com.csse.course.DBConnection;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class course_1 extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
+	private JTable table1;
 	private JTable table_1;
-
+	
+	private static Connection connection = null;
+	private static PreparedStatement preparedStatement;
+	private static ResultSet resultSet;
 	/**
 	 * Launch the application.
 	 */
@@ -78,16 +93,23 @@ public class course_1 extends JFrame {
 		scrollPane.setBounds(141, 162, 477, 119);
 		panel_1.add(scrollPane);
 		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(
+		table1 = new JTable();
+		scrollPane.setViewportView(table1);
+		table1.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
 				"From", "To", "Description"
 			}
-		));
-		table.getColumnModel().getColumn(2).setPreferredWidth(150);
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table1.getColumnModel().getColumn(2).setPreferredWidth(150);
 		
 		JLabel lblFrom = new JLabel("From");
 		lblFrom.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -126,19 +148,81 @@ public class course_1 extends JFrame {
 		panel_1.add(lblAddSchedule);
 		
 		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				
+				String data1 = df.format(from_date.getDate());
+			    String data2 = df.format(to_date.getDate());
+			    String data3 = descript.getText();
+			 
+			    Object[] row = { data1, data2, data3 };
+
+			    DefaultTableModel model = (DefaultTableModel) table1.getModel();
+
+			    model.addRow(row);
+			}
+		});
 		btnAdd.setForeground(Color.DARK_GRAY);
 		btnAdd.setFont(new Font("Cambria", Font.BOLD, 14));
 		btnAdd.setBackground(new Color(60, 179, 113));
 		btnAdd.setBounds(629, 92, 89, 31);
 		panel_1.add(btnAdd);
 		
-		JLabel label = new JLabel("");
-		label.setForeground(Color.DARK_GRAY);
-		label.setFont(new Font("Tahoma", Font.BOLD, 18));
-		label.setBounds(199, 22, 141, 34);
-		panel_1.add(label);
+		JLabel lblIt = new JLabel("it150");
+		lblIt.setForeground(Color.DARK_GRAY);
+		lblIt.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblIt.setBounds(199, 22, 141, 34);
+		panel_1.add(lblIt);
 		
 		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					connection = DBConnection.getconnection();
+				} catch (ClassNotFoundException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				
+				int row = table1.getRowCount();
+				Date from_date1 = null;
+				Date to_date1 = null;
+				
+				for(int i = 0 ; i<row ;i++) {
+					String course_code = lblIt.getText();
+					DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+					
+					
+					
+					try {
+						 from_date1 =  df.parse((String) table1.getValueAt(i, 0));
+						 to_date1 = df.parse((String) table1.getValueAt(i, 1));
+					} catch (ParseException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					String descript1 = (String) table1.getValueAt(i, 2);
+					
+					java.sql.Date sqlfromdate = new java.sql.Date(from_date1.getTime());
+					java.sql.Date sqltodate = new java.sql.Date(to_date1.getTime());
+					
+					String query = "Insert into course_schedule values ('" + course_code + "','" + sqlfromdate + "','" + sqltodate + "','" + descript1 + "')";
+					
+					try {
+						preparedStatement = connection.prepareStatement(query);
+						preparedStatement.executeUpdate();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
+				}
+				
+			}
+			
+		});
 		btnSave.setForeground(Color.DARK_GRAY);
 		btnSave.setFont(new Font("Cambria", Font.BOLD, 14));
 		btnSave.setBackground(new Color(60, 179, 113));
