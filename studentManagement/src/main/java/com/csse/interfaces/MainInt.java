@@ -5,7 +5,6 @@ import java.util.Properties;
 
 import javax.swing.JFrame;
 
-
 import com.csse.application.starter.ApplictionHandler;
 import com.csse.common.utill.ApplicationConfig;
 import com.csse.common.utill.Filehandler;
@@ -18,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.awt.event.ActionEvent;
 
-
 public class MainInt {
 
 	private JFrame frame;
@@ -26,7 +24,7 @@ public class MainInt {
 	/**
 	 * Launch the application.
 	 */
-	
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -36,7 +34,9 @@ public class MainInt {
 					window.frame.setVisible(true);*/
 					
 					StudentRegistrationUI window = new StudentRegistrationUI();
+					/*MainInt window = new MainInt();*/
 					window.frame.setVisible(true);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -59,7 +59,7 @@ public class MainInt {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
+
 		JButton btnPayment = new JButton("Payment");
 		btnPayment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -69,15 +69,15 @@ public class MainInt {
 		});
 		btnPayment.setBounds(306, 46, 89, 23);
 		frame.getContentPane().add(btnPayment);
-		
-		JButton btnRegistration = new JButton("Registration");
-		btnRegistration.addActionListener(new ActionListener() {
+
+		JButton btnRegistration_1 = new JButton("Registration");
+		btnRegistration_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				StudentRegistrationUI studentRegistrationUI = new StudentRegistrationUI();
-				studentRegistrationUI.setVisible(true);
+				studentRegistrationUI.frame.setVisible(true);
 			}
 		});
-		btnRegistration.setBounds(306, 46, 89, 23);
-		frame.getContentPane().add(btnRegistration);
+		btnRegistration_1.setBounds(39, 46, 99, 23);
+		frame.getContentPane().add(btnRegistration_1);
 	}
 }
