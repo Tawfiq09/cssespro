@@ -30,12 +30,11 @@ public class MainInt {
 			public void run() {
 				try {
 					ApplictionHandler.start();
-					System.out.println("name is:" + ApplictionHandler.CONFIGS.getProperty(ApplicationConfig.FILE));
-					Properties stuprops = Filehandler
-							.loadPropertiesFromFile(ApplictionHandler.CONFIGS.getProperty(ApplicationConfig.FILE));
-					System.out.println(stuprops.getProperty("name"));
-
-					MainInt window = new MainInt();
+					/*MainInt window = new MainInt();
+					window.frame.setVisible(true);*/
+					
+					StudentRegistrationUI window = new StudentRegistrationUI();
+					/*MainInt window = new MainInt();*/
 					window.frame.setVisible(true);
 
 				} catch (Exception e) {

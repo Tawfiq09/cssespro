@@ -20,9 +20,6 @@ public class StudentDAO extends GenericDAO{
 		Connection con = dmger.getConnection();
 		JSONParser parser = new JSONParser();
 		JSONObject json = (JSONObject) parser.parse(stuObject);
-		String fname = (String) json.get("fullName");
-		String address = (String) json.get("address");
-		System.out.println("fname:"+fname);
 		String query = "insert into registration values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pst = (PreparedStatement) con.prepareStatement(query);
 		pst.setString(1,(String) json.get("sid"));
@@ -64,10 +61,10 @@ public class StudentDAO extends GenericDAO{
 		pst.close();
 	}
 
-	public void deleteStudent(Connection con,String nic) throws Exception {
+	public void deleteStudent(Connection con,String sid) throws Exception {
 		/*DAOManager dmger =new DAOManager();
 		Connection con = dmger.getConnection();*/
-		String query = "delete from registration where nic='"+nic+"'";
+		String query = "delete from registration where id='"+sid+"'";
 		PreparedStatement pst = (PreparedStatement) con.prepareStatement(query);
 		pst.execute();
 		pst.close();
