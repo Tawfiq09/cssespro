@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
 
 public class course_1 extends JFrame {
 
@@ -42,6 +43,7 @@ public class course_1 extends JFrame {
 	private static Connection connection = null;
 	private static PreparedStatement preparedStatement;
 	private static ResultSet resultSet;
+	private JTextField descript;
 	/**
 	 * Launch the application.
 	 */
@@ -134,13 +136,6 @@ public class course_1 extends JFrame {
 		to_date.setBounds(242, 97, 110, 20);
 		panel_1.add(to_date);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(461, 95, 133, 46);
-		panel_1.add(scrollPane_1);
-		
-		JTextArea descript = new JTextArea();
-		scrollPane_1.setViewportView(descript);
-		
 		JLabel lblAddSchedule = new JLabel("Add Schedule");
 		lblAddSchedule.setForeground(Color.DARK_GRAY);
 		lblAddSchedule.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -206,11 +201,12 @@ public class course_1 extends JFrame {
 					
 					java.sql.Date sqlfromdate = new java.sql.Date(from_date1.getTime());
 					java.sql.Date sqltodate = new java.sql.Date(to_date1.getTime());
+					System.out.println(course_code+sqlfromdate+sqltodate+descript);
 					
-					String query = "Insert into course_schedule values ('" + course_code + "','" + sqlfromdate + "','" + sqltodate + "','" + descript1 + "')";
+					//String query = "Insert into course_schedule values ('" + course_code + "','" + sqlfromdate + "','" + sqltodate + "','" + descript1 + "')";
 					
 					try {
-						preparedStatement = connection.prepareStatement(query);
+					//	preparedStatement = connection.prepareStatement(query);
 						preparedStatement.executeUpdate();
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
@@ -228,6 +224,12 @@ public class course_1 extends JFrame {
 		btnSave.setBackground(new Color(60, 179, 113));
 		btnSave.setBounds(629, 318, 89, 31);
 		panel_1.add(btnSave);
+		
+		descript = new JTextField();
+		descript.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		descript.setBounds(448, 98, 170, 45);
+		panel_1.add(descript);
+		descript.setColumns(10);
 		
 		JPanel students = new JPanel();
 		tabbedPane.addTab("Students", null, students, null);
