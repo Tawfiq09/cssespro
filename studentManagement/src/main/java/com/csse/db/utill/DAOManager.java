@@ -22,7 +22,6 @@ public class DAOManager {
 	 
 	 public void startConnectionPool() {
 		 try {
-			//connectionPool = new ConnectionPool(8, 6, "jdbc:mysql://localhost:3306/studentmanagement", "root", "dogsun123", "com.mysql.jdbc.Driver");
 			connectionPool = new ConnectionPool(8, 6,ApplictionHandler.CONFIGS.getProperty(ApplicationConfig.DB_CONNECTION),
 					ApplictionHandler.CONFIGS.getProperty(ApplicationConfig.DB_USERNAME), ApplictionHandler.CONFIGS.getProperty(ApplicationConfig.DB_PASSWORD),
 					ApplictionHandler.CONFIGS.getProperty(ApplicationConfig.DB_DRIVER));
